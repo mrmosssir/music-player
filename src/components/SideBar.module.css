@@ -1,0 +1,15 @@
+.sidebar {
+  @apply bg-primary-200 min-w-[390px] w-1/4 h-screen
+}
+
+.header {
+  @apply px-8 py-6
+}
+
+.nav {
+  @apply flex justify-between items-center mt-2
+}
+
+.nav > p {
+  @apply text-white
+}

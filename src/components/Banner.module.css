@@ -1,0 +1,19 @@
+.banner {
+  @apply relative w-full h-96 bg-cover bg-center bg-no-repeat rounded-lg mt-6;
+}
+
+.content {
+  @apply absolute bottom-0 w-full h-32 px-10 flex justify-between items-center bg-gradient-to-b from-transparent to-black-500;
+}
+
+.content p {
+  @apply text-white font-bold;
+}
+
+.content small {
+  @apply block text-white-500 text-xs;
+}
+
+.content > button {
+  @apply w-9 h-9 pl-3.5 rounded-full bg-gradient-to-b from-secondary to-primary-400;
+}

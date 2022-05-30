@@ -1,0 +1,22 @@
+/* frame */
+.frame {
+  @apply bg-primary-200 min-w-[390px] w-1/4 py-8 px-10 h-screen shadow-[5px_0px_10px_rgba(0,0,0,0.2)]
+}
+
+/* search */
+.search {
+  @apply relative my-3
+}
+
+.search > input {
+  @apply w-full rounded-full text-white bg-white-100 px-5 py-2 border
+}
+
+.search > button {
+  @apply absolute top-0 right-5 my-3
+}
+
+/* logo */
+.logo {
+  @apply block my-0 mx-auto
+}

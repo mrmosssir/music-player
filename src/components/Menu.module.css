@@ -1,0 +1,10 @@
+.menu {
+  @apply px-5 mt-6
+}
+.menu > li {
+  @apply flex mt-3
+}
+
+.menu > li > img {
+  @apply ml-3
+}

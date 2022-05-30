@@ -1,0 +1,3 @@
+.badge {
+  @apply bg-primary-300 rounded-full py-1 px-4 text-white mr-2 mt-2;
+}
