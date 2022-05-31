@@ -1,0 +1,27 @@
+.auth {
+  @apply absolute top-4 right-4 flex items-center;
+}
+
+.auth > button {
+  @apply text-white h-10 rounded-full;
+}
+
+.upgrade {
+  @apply bg-gradient-to-r from-secondary to-primary-400 px-6 mr-2;
+}
+
+.login {
+  @apply flex items-center bg-transparent border border-white-500 px-6;
+}
+
+.user {
+  @apply flex items-center bg-transparent border border-white-500 px-1;
+}
+
+.user > .profile {
+  @apply w-8 h-8 rounded-full mr-3;
+}
+
+.user > .open {
+  @apply mr-2 ml-3;
+}

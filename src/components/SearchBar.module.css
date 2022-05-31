@@ -1,6 +1,6 @@
 /* frame */
 .frame {
-  @apply bg-primary-200 min-w-[390px] w-1/4 py-8 px-10 h-screen shadow-[5px_0px_10px_rgba(0,0,0,0.2)]
+  @apply bg-primary-200 min-w-[350px] w-1/5 py-8 px-10 h-screen shadow-[5px_0px_10px_rgba(0,0,0,0.2)]
 }
 
 /* search */

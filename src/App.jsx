@@ -9,6 +9,7 @@ import Router from "@/Router";
 import auth from "@/utils/auth";
 import cookie from "@/utils/cookie";
 
+import AuthGroup from "@/components/AuthGroup";
 import SearchBar from "@/components/SearchBar";
 import SideBar from "@/components/SideBar";
 
@@ -52,14 +53,15 @@ function App() {
 
   useEffect(() => {
     if (!token) return;
-    getNewRelease(token).catch(console.error);
+    // getNewRelease(token).catch(console.error);
   }, [token])
 
   return (
     <div className="bg-primary-100 h-screen flex justify-between">
       {/* <button onClick={ auth.login }>登入</button> */}
       <SearchBar />
-      <div className="w-full">
+      <div className="w-full box-border relative mx-auto">
+        <AuthGroup />
         <Router />
       </div>
       <SideBar />

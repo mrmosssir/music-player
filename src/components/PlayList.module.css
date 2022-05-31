@@ -2,11 +2,11 @@
 }
 
 .header {
-  @apply flex items-center px-8
+  @apply flex items-center px-8 mb-2
 }
 
 .header > p {
-  @apply text-white mx-4 truncate
+  @apply text-white mx-4
 
 }
 
@@ -23,11 +23,11 @@
 }
 
 .content {
-  @apply w-3/5 min-w-[230px]
+  @apply w-1/2
 }
 
 .content > p {
-  @apply text-white
+  @apply text-white truncate
 }
 
 .content > small {
@@ -39,11 +39,11 @@
 }
 
 .body > small {
-  @apply text-white-500
+  @apply text-white-500 mr-3
 }
 
 .close {
-  @apply absolute text-xs top-1 right-1 text-white-500
+  @apply absolute text-xs top-2 right-2 text-white-500
 }
 
 .active {
