@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  @apply overflow-hidden
+}
+
 .container {
   @apply h-full w-4/5 mx-auto py-10 overflow-scroll;
 
