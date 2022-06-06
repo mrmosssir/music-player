@@ -1,10 +1,14 @@
 .menu {
-  @apply px-5 mt-6
+  @apply px-5 mt-6;
 }
 .menu > li {
-  @apply flex mt-3
+  @apply flex mt-3;
+}
+
+.menu > li > a {
+  @apply font-medium;
 }
 
 .menu > li > img {
-  @apply ml-3
+  @apply ml-3;
 }

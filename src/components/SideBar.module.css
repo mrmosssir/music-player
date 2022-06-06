@@ -1,5 +1,5 @@
 .sidebar {
-  @apply relative bg-primary-200 min-w-[350px] w-1/5 h-screen translate-x-full transition duration-500;
+  @apply absolute bg-primary-200 min-w-[350px] w-1/5 h-screen top-0 right-0 translate-x-full transition duration-500;
 }
 
 .header {
@@ -15,7 +15,7 @@
 }
 
 .open {
-  @apply block absolute top-8 left-0 w-12 h-12 border border-white rounded-l-lg translate-x-[-100%] opacity-0 duration-300; 
+  @apply block absolute top-8 left-0 w-12 h-12 bg-primary-100 border border-white rounded-l-lg translate-x-[-100%] opacity-0 duration-300; 
 }
 
 .open > img {

@@ -20,11 +20,19 @@ module.exports = {
         500: '#CDBBFF33'
       },
       'secondary': {
-        DEFAULT: '#FF0099'
+        DEFAULT: '#FF0099',
+        100: '#FF5E67'
       }
     },
     letterSpacing: {
+      'wider': '.05rem',
       'widest': '.2rem'
+    },
+    fontFamily: {
+      'light': ['PingFangTC-Light'],
+      'regular': ['PingFangTC-Regular'],
+      'medium': ['PingFangTC-Medium'],
+      'bold': ['PingFangSC-Semibold']
     },
     extend: {},
   },

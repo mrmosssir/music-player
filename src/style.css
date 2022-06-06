@@ -2,12 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  @apply font-regular;
+}
+
 body {
-  @apply overflow-hidden
+  @apply overflow-hidden;
 }
 
 .container {
-  @apply h-full w-4/5 mx-auto py-10 overflow-scroll;
+  @apply h-full w-4/5 mx-auto py-10;
 
   /* Hide scrollbar for IE, Edge and Firefox */
   -ms-overflow-style: none;

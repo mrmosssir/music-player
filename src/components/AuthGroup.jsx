@@ -2,6 +2,8 @@ import { useState } from "react";
 
 import style from "@/components/AuthGroup.module.css";
 
+import Theme from "@/components/Theme";
+
 import triangle from "@/assets/svg/triangle.svg";
 
 import test_profile_btn from "@/test/test_profile_btn.png";
@@ -22,9 +24,12 @@ const AuthGroup = function () {
   }
 
   return (
-    <div className={ style.auth }>
-      <button className={ style.upgrade }>Music Premium</button>
-      { login ? profileBtn() : loginBtn() }
+    <div className="flex justify-between items-center">
+      <Theme main="每日精選" sub="Daily Featured" />
+      <div className={ style.auth }>
+        <button className={ style.upgrade }>Music Premium</button>
+        { login ? profileBtn() : loginBtn() }
+      </div>
     </div>
   )
 }

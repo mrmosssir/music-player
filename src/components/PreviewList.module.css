@@ -15,11 +15,7 @@
 }
 
 .list {
-  @apply flex justify-between items-center overflow-scroll mt-3;
-}
-
-.item {
-  @apply pr-4;
+  @apply w-full flex justify-between items-center mt-3;
 }
 
 .item > p {

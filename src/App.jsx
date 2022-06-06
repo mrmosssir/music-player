@@ -1,7 +1,7 @@
 import axios from "axios";
 import qs from "qs";
 
-import { useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Router from "@/Router";
@@ -9,13 +9,18 @@ import Router from "@/Router";
 import auth from "@/utils/auth";
 import cookie from "@/utils/cookie";
 
-import AuthGroup from "@/components/AuthGroup";
+// import AuthGroup from "@/components/AuthGroup";
 import SearchBar from "@/components/SearchBar";
 import SideBar from "@/components/SideBar";
+
+export const colsContext = createContext();
 
 function App() {  
 
   const [ token, setToken ] = useState();
+  const [ cols, setCols ] = useState(7);
+
+  const ref = useRef(0);
 
   const getNewRelease = async function (requestToken) {
     const url = `${process.env.API_BASE_URL}/browse/new-releases`;
@@ -30,6 +35,18 @@ function App() {
     const { data } = await axios(config);
     if (data.error) return false;
     return data.albums.item;
+  }
+
+  const handleWidth = function (status, width) {
+    if (!ref.current) return;
+    const currentWidth = ref.current.offsetWidth;
+    if (status) {
+      ref.current.style.width = `${currentWidth - width}px`;
+      setCols(5);
+    } else {
+      setTimeout(() => { ref.current.style.width = "100%"; }, 0);
+      setCols(7);
+    }
   }
 
   useEffect(() => {
@@ -58,13 +75,15 @@ function App() {
 
   return (
     <div className="bg-primary-100 h-screen flex justify-between">
-      {/* <button onClick={ auth.login }>登入</button> */}
       <SearchBar />
-      <div className="w-full box-border relative mx-auto">
-        <AuthGroup />
-        <Router />
+      <div className="w-full box-border relative mx-auto overflow-scroll">
+        <div ref={ ref } className="w-full transition-all duration-500">
+          <colsContext.Provider value={ cols }>
+            <Router />
+          </colsContext.Provider>
+        </div>
       </div>
-      <SideBar />
+      <SideBar resize={ handleWidth } />
     </div>
   )
 }

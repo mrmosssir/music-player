@@ -15,5 +15,5 @@
 }
 
 .content > button {
-  @apply w-9 h-9 pl-3.5 rounded-full bg-gradient-to-b from-secondary to-primary-400;
+  @apply w-9 h-9 pl-3.5 rounded-full bg-gradient-to-b from-secondary-100 to-primary-400;
 }

@@ -1,13 +1,13 @@
 .auth {
-  @apply absolute top-4 right-4 flex items-center;
+  @apply flex items-center;
 }
 
 .auth > button {
-  @apply text-white h-10 rounded-full;
+  @apply text-white h-10 rounded-full font-light tracking-wider;
 }
 
 .upgrade {
-  @apply bg-gradient-to-r from-secondary to-primary-400 px-6 mr-2;
+  @apply bg-gradient-to-r from-secondary-100 to-primary-400 px-6 mr-2;
 }
 
 .login {
