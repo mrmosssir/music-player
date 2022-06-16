@@ -9,21 +9,17 @@ import test_preview_list from "@/test/test_preview_list.png";
 
 const PreviewList = function (props) {
 
-  const [size, setSize] = useState(0);
-  // const [cols, setCols] = useState(7);
   const test_array = [1, 1, 1, 1, 1, 1, 1];
 
   const ref = useRef(0);
-  const cols = useContext(colsContext);
-
+  const colsConsumer = useContext(colsContext);
+  const [list, setList] = useState(test_array);
+  
   useEffect(() => {
-
-    if (!ref.current) return;
-    
-    const gutter = 16;
-
-    setSize(Math.floor((ref.current.offsetWidth - gutter * 4) / cols));
-  }, [])
+    const display = test_array.filter((item, index) => index < colsConsumer);
+    if (colsConsumer < 7) setList(display);
+    else setTimeout(() => { setList(display) }, 500)
+  }, [colsConsumer])
 
   return (
     <div ref={ ref } className={ style.preview }>
@@ -33,41 +29,16 @@ const PreviewList = function (props) {
       </div>
       <ul className={ style.list }>
         {
-          test_array.map((item, index) => {
-            return index < cols ? (
+          list.map((item, index) => {
+            return (
               <li className={ style.item } key={ index }>
-                <img width={ size } height={ size } src={ test_preview_list } alt="" />
+                <img width="100" height="100" src={ test_preview_list } alt="" />
                 <p>Thursday's Child</p>
                 <small>Tomorrow x Toge...</small>
               </li>
-            ) : "";
+            )
           })
         }
-        {/* <li className={ style.item }>
-          <img width={ size } height={ size } src={ test_preview_list } alt="" />
-          <p>Thursday's Child</p>
-          <small>Tomorrow x Toge...</small>
-        </li>
-        <li className={ style.item }>
-          <img width={ size } height={ size } src={ test_preview_list } alt="" />
-          <p>Thursday's Child</p>
-          <small>Tomorrow x Toge...</small>
-        </li>
-        <li className={ style.item }>
-          <img width={ size } height={ size } src={ test_preview_list } alt="" />
-          <p>Thursday's Child</p>
-          <small>Tomorrow x Toge...</small>
-        </li>
-        <li className={ style.item }>
-          <img width={ size } height={ size } src={ test_preview_list } alt="" />
-          <p>Thursday's Child</p>
-          <small>Tomorrow x Toge...</small>
-        </li>
-        <li className={ style.item }>
-          <img width={ size } height={ size } src={ test_preview_list } alt="" />
-          <p>Thursday's Child</p>
-          <small>Tomorrow x Toge...</small>
-        </li> */}
       </ul>
     </div>
   )

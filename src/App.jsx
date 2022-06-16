@@ -22,21 +22,6 @@ function App() {
 
   const ref = useRef(0);
 
-  const getNewRelease = async function (requestToken) {
-    const url = `${process.env.API_BASE_URL}/browse/new-releases`;
-    const config = {
-      method: 'GET',
-      url: `${url}?${qs.stringify({ country: 'TW', limit: 5 })}`,
-      headers: {
-        'Authorization': `Bearer ${requestToken}`,
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }
-    };
-    const { data } = await axios(config);
-    if (data.error) return false;
-    return data.albums.item;
-  }
-
   const handleWidth = function (status, width) {
     if (!ref.current) return;
     const currentWidth = ref.current.offsetWidth;
@@ -44,7 +29,7 @@ function App() {
       ref.current.style.width = `${currentWidth - width}px`;
       setCols(5);
     } else {
-      setTimeout(() => { ref.current.style.width = "100%"; }, 0);
+      ref.current.style.width = "100%";
       setCols(7);
     }
   }
@@ -70,7 +55,6 @@ function App() {
 
   useEffect(() => {
     if (!token) return;
-    // getNewRelease(token).catch(console.error);
   }, [token])
 
   return (
