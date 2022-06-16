@@ -11,23 +11,25 @@ const PreviewList = function (props) {
 
   const test_array = [1, 1, 1, 1, 1, 1, 1];
 
-  const ref = useRef(0);
+  const ref = useRef(null);
   const colsConsumer = useContext(colsContext);
   const [list, setList] = useState(test_array);
   
   useEffect(() => {
+    if (!ref.current) return;
     const display = test_array.filter((item, index) => index < colsConsumer);
-    if (colsConsumer < 7) setList(display);
-    else setTimeout(() => { setList(display) }, 500)
+    ref.current.classList.add("opacity-0");
+    setTimeout(() => { setList(display) }, 400)
+    setTimeout(() => { ref.current.classList.remove("opacity-0") }, 500);
   }, [colsConsumer])
 
   return (
-    <div ref={ ref } className={ style.preview }>
+    <div className={ style.preview }>
       <div className={ style.header }>
         <h3>{ props.title }</h3>
         <Link to={ props.link }>更多</Link>
       </div>
-      <ul className={ style.list }>
+      <ul ref={ ref } className={ style.list }>
         {
           list.map((item, index) => {
             return (

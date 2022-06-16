@@ -15,13 +15,17 @@
 }
 
 .list {
-  @apply w-full flex justify-between items-center mt-3;
+  @apply w-full flex justify-between mt-3 opacity-100 transition duration-300;
 }
 
 .item > p {
-  @apply text-sm text-white truncate mt-2;
+  @apply text-sm text-white truncate mt-2 whitespace-nowrap;
 }
 
 .item > small {
-  @apply text-xs text-white-500 mt-2;
+  @apply text-xs text-white-500 truncate mt-2 whitespace-nowrap;
+}
+
+.fade {
+  @apply opacity-0 transition duration-300;
 }
