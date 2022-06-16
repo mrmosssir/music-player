@@ -14,7 +14,7 @@ const PreviewList = function (props) {
   const ref = useRef(null);
   const colsConsumer = useContext(colsContext);
   const [list, setList] = useState(test_array);
-  
+
   useEffect(() => {
     if (!ref.current) return;
     const display = test_array.filter((item, index) => index < colsConsumer);
