@@ -3,36 +3,33 @@ import { useState, useRef, useEffect, useContext } from "react";
 import style from "@/components/PreviewList.module.css";
 
 import { Link } from "react-router-dom";
-import { colsContext } from "@/App";
-
-import test_preview_list from "@/test/test_preview_list.png";
+import { context } from "@/App";
 
 const PreviewList = function (props) {
 
   const test_array = [1, 1, 1, 1, 1, 1, 1];
 
   const ref = useRef(null);
-  const colsConsumer = useContext(colsContext);
-  const [list, setList] = useState(test_array);
+  const consumer = useContext(context);
+
   const [size, setSize] = useState("100%")
 
   const sizeChange = function (column) {
     const width = ref.current.offsetWidth;
-    const gutter = 16;
-    const size = (width - (16 * (column - 1))) / column;
+    const gutter = 2; // percents
+    const size = width / 100 * (100 - (gutter * (column - 1))) / column;
     setSize(`${size}px`);
   }
 
   useEffect(() => {
     if (!ref.current) return;
-    const display = test_array.filter((item, index) => index < colsConsumer);
+    const display = test_array.filter((item, index) => index < consumer.cols);
     ref.current.classList.add("opacity-0");
-    setTimeout(() => { 
-      setList(display);
-      sizeChange(colsConsumer);
+    setTimeout(() => {
+      sizeChange(consumer.cols);
     }, 400)
     setTimeout(() => { ref.current.classList.remove("opacity-0") }, 500);
-  }, [colsConsumer])
+  }, [consumer.cols])
 
   return (
     <div ref={ ref } className={ style.preview }>
@@ -42,12 +39,14 @@ const PreviewList = function (props) {
       </div>
       <ul className={ style.list }>
         {
-          list.map((item, index) => {
+          props.list.filter((item, index) => {
+            return index < consumer.cols;
+          }).map((item, index) => {
             return (
               <li className={ style.item } style={{ width: size }} key={ index }>
-                <img src={ test_preview_list } alt="" />
-                <p>Thursday's Child</p>
-                <small>Tomorrow x Toge...</small>
+                <img width={ "100%" } height={ "100%" } src={ item.image } alt="" />
+                <p>{ item.name }</p>
+                <small>{ item.artist }</small>
               </li>
             )
           })

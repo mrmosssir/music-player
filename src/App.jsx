@@ -13,7 +13,7 @@ import cookie from "@/utils/cookie";
 import SearchBar from "@/components/SearchBar";
 import SideBar from "@/components/SideBar";
 
-export const colsContext = createContext();
+export const context = createContext();
 
 function App() {  
 
@@ -35,13 +35,14 @@ function App() {
   }
 
   useEffect(() => {
+
     if (cookie.check('token')) {
       setToken(cookie.get('token'));
       return;
     }
     // status -> 0: 未登入, 1: 處理中, 2: 已登入
     const status = cookie.get('status');
-
+    
     if (!status) return;
 
     auth.login();
@@ -53,18 +54,14 @@ function App() {
     });
   }, [])
 
-  useEffect(() => {
-    if (!token) return;
-  }, [token])
-
   return (
     <div className="bg-primary-100 h-screen flex justify-between">
       <SearchBar />
       <div className="wrap">
         <div ref={ ref } className="w-full transition-all duration-500">
-          <colsContext.Provider value={ cols }>
+          <context.Provider value={{ cols, token }}>
             <Router />
-          </colsContext.Provider>
+          </context.Provider>
         </div>
       </div>
       <SideBar resize={ handleWidth } />

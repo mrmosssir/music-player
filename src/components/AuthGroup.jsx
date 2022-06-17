@@ -1,17 +1,28 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+
+import auth from "@/utils/auth";
 
 import style from "@/components/AuthGroup.module.css";
 
 import Theme from "@/components/Theme";
+
+import { context } from "@/App";
 
 import triangle from "@/assets/svg/triangle.svg";
 
 import test_profile_btn from "@/test/test_profile_btn.png";
 
 const AuthGroup = function () {
+  const consumer = useContext(context);
+
   const [login, setLogin] = useState(false);
 
-  const loginBtn = function () { return <button className={ style.login }>登入</button> }
+  useEffect(() => {
+    if (consumer.token) setLogin(true);
+    else setLogin(false);
+  }, [consumer.token])
+
+  const loginBtn = function () { return <button className={ style.login } onClick={ auth.login }>登入</button> }
 
   const profileBtn = function () {
     return (
