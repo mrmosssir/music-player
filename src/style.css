@@ -15,6 +15,14 @@ body::-webkit-scrollbar {
   display: none;
 }
 
+.wrap {
+  @apply w-full box-border relative mx-auto overflow-scroll;
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 .container {
   @apply h-full w-4/5 mx-auto py-10;
 
@@ -24,6 +32,6 @@ body::-webkit-scrollbar {
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
-.container::-webkit-scrollbar {
+.wrap::-webkit-scrollbar, .container::-webkit-scrollbar {
   display: none;
 }

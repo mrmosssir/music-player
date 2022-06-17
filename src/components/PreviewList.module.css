@@ -1,5 +1,5 @@
 .preview {
-  @apply mt-8;
+  @apply mt-8 opacity-100 transition duration-300;
 }
 
 .header {
@@ -15,7 +15,7 @@
 }
 
 .list {
-  @apply w-full flex items-center mt-3 opacity-100 transition duration-300;
+  @apply w-full flex justify-between items-center mt-3;
 }
 
 .item > p {

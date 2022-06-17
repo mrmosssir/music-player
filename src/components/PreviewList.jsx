@@ -14,27 +14,38 @@ const PreviewList = function (props) {
   const ref = useRef(null);
   const colsConsumer = useContext(colsContext);
   const [list, setList] = useState(test_array);
+  const [size, setSize] = useState("100%")
+
+  const sizeChange = function (column) {
+    const width = ref.current.offsetWidth;
+    const gutter = 16;
+    const size = (width - (16 * (column - 1))) / column;
+    setSize(`${size}px`);
+  }
 
   useEffect(() => {
     if (!ref.current) return;
     const display = test_array.filter((item, index) => index < colsConsumer);
     ref.current.classList.add("opacity-0");
-    setTimeout(() => { setList(display) }, 400)
+    setTimeout(() => { 
+      setList(display);
+      sizeChange(colsConsumer);
+    }, 400)
     setTimeout(() => { ref.current.classList.remove("opacity-0") }, 500);
   }, [colsConsumer])
 
   return (
-    <div className={ style.preview }>
+    <div ref={ ref } className={ style.preview }>
       <div className={ style.header }>
         <h3>{ props.title }</h3>
         <Link to={ props.link }>更多</Link>
       </div>
-      <ul ref={ ref } className={ style.list }>
+      <ul className={ style.list }>
         {
           list.map((item, index) => {
             return (
-              <li className={ style.item } key={ index }>
-                <img width="100" height="100" src={ test_preview_list } alt="" />
+              <li className={ style.item } style={{ width: size }} key={ index }>
+                <img src={ test_preview_list } alt="" />
                 <p>Thursday's Child</p>
                 <small>Tomorrow x Toge...</small>
               </li>

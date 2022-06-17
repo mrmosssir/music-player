@@ -60,7 +60,7 @@ function App() {
   return (
     <div className="bg-primary-100 h-screen flex justify-between">
       <SearchBar />
-      <div className="w-full box-border relative mx-auto overflow-scroll">
+      <div className="wrap">
         <div ref={ ref } className="w-full transition-all duration-500">
           <colsContext.Provider value={ cols }>
             <Router />
