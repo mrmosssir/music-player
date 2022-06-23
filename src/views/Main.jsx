@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 
 import browse from "@/utils/browse";
+import cookie from "@/utils/cookie";
 
 import AuthGroup from "@/components/AuthGroup";
 import Banner from "@/components/Banner";
@@ -19,16 +20,27 @@ const Main = function (props) {
 
   useEffect(() => {
     if (!consumer.token) return;
-    browse.getNewRealse(consumer.token).then((response) => setNewList(response));
-    browse.getFeaturedPlayList(consumer.token).then((response) => setFeatureList(response));
+    browse.getNewRealse(consumer.token, consumer.user?.country).then((response) => setNewList(response));
+    browse.getFeaturedPlayList(consumer.token, consumer.user?.country).then((response) => setFeatureList(response));
+  }, [consumer.user]);
+
+  useEffect(() => {
+    if (!consumer.token) return;
+    if (cookie.get("login")) return;
+    browse.getNewRealse(consumer.token, consumer.user?.country).then((response) => setNewList(response));
+    browse.getFeaturedPlayList(consumer.token, consumer.user?.country).then((response) => setFeatureList(response));
   }, [consumer.token]);
+
+  useEffect(() => {
+    console.log(newList);
+  }, [newList]);
 
   return (
     <div className="container">
       <AuthGroup />
-      <Banner image={ banner } name="終究還是因為愛 (REMIX)" artist="李浩瑋, PIZZALI, 陳忻玥,G5SH" />
-      <PreviewList title="最新專輯" list={ newList } link="/" />
-      <PreviewList title="推薦歌單" list={ featuredList } link="/" />
+      <Banner image={ newList[0]?.image } name={ newList[0]?.name } artist={ newList[0]?.artists } />
+      <PreviewList title="最新專輯" list={ newList.filter((item, index) => index > 0) } link="/" />
+      <PreviewList title="推薦歌單" list={ featuredList} link="/" />
     </div>
   )
 }

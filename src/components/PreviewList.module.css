@@ -22,6 +22,10 @@
   @apply text-sm text-white truncate mt-2 whitespace-nowrap;
 }
 
+.item > img {
+  @apply rounded;
+}
+
 .item > small {
   @apply text-xs text-white-500 truncate mt-2 whitespace-nowrap;
 }

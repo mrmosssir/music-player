@@ -1,15 +1,17 @@
 .theme {
-  @apply flex
+  @apply flex;
 }
 
 .theme > img {
-  @apply block w-6 h-8 mt-auto mr-2 mb-0.5
+  @apply block w-6 h-8 mt-auto mr-2 mb-0.5;
 }
 
 .content > h2 {
-  @apply text-white text-4xl font-bold
+  @apply text-white text-2xl font-bold;
+  @apply md:text-4xl;
 }
 
 .content > small {
-  @apply block text-secondary text-xs tracking-widest text-center
+  @apply hidden text-secondary text-xs tracking-widest text-center;
+  @apply md:block;
 }

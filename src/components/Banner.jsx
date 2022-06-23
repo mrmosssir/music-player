@@ -5,7 +5,9 @@ import play from "@/assets/svg/play.svg";
 const Banner = function (props) {
   const innerStyle = { backgroundImage: `url("${props.image}")` };
   return (
-    <div className={ style.banner } style={ innerStyle }>
+    <div className={ style.banner }>
+      <div className={ style.mask } style={ innerStyle }></div>
+      <img className={ style.image } src={ props.image } alt="" />
       <div className={ style.content }>
         <div>
           <p>{ props.name }</p>

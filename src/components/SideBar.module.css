@@ -15,7 +15,8 @@
 }
 
 .open {
-  @apply block absolute top-8 left-0 w-12 h-12 bg-primary-100 border border-white rounded-l-lg translate-x-[-100%] opacity-0 duration-300; 
+  @apply hidden absolute top-8 left-0 w-12 h-12 bg-primary-100 border border-white rounded-l-lg translate-x-[-100%] opacity-0 duration-300;
+  @apply md:block;
 }
 
 .open > img {

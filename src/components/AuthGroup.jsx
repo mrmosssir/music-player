@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 
-import auth from "@/utils/auth";
+import { login } from "@/utils/auth";
 
 import style from "@/components/AuthGroup.module.css";
 
@@ -8,38 +8,46 @@ import Theme from "@/components/Theme";
 
 import { context } from "@/App";
 
+import logo from "@/assets/svg/logo.svg";
+import menu from "@/assets/svg/menu.svg";
+import search from "@/assets/svg/search.svg";
 import triangle from "@/assets/svg/triangle.svg";
 
-import test_profile_btn from "@/test/test_profile_btn.png";
+import defaultProfile from "@/assets/default_user.png";
 
 const AuthGroup = function () {
   const consumer = useContext(context);
-
-  const [login, setLogin] = useState(false);
+  const [ user, setUser ] = useState({ name: "", image: "" });
 
   useEffect(() => {
-    if (consumer.token) setLogin(true);
-    else setLogin(false);
-  }, [consumer.token])
+    if (!consumer.user) return;
+    const image = consumer.user.images.length ? consumer.user.images[0].url : defaultProfile;
+    setUser({ name: consumer.user.display_name, image });
+  }, [consumer.user])
 
-  const loginBtn = function () { return <button className={ style.login } onClick={ auth.login }>登入</button> }
+  const loginBtn = function () { return <button className={ style.login } onClick={ () => login() }>登入</button> }
 
   const profileBtn = function () {
     return (
       <button className={ style.user }>
-        <img className={ style.profile } src={ test_profile_btn } alt="" />
-        Mochi Armi
+        <img className={ style.profile } src={ user.image } alt={ user.name } />
+        { user.name }
         <img className={ style.open } width="10" height="10" src={ triangle } alt="展開" />
       </button>
     )
   }
 
   return (
-    <div className="flex justify-between items-center">
+    <div className={ style.frame }>
+      <img src={ logo } alt="logo" className={ style.logo } />
       <Theme main="每日精選" sub="Daily Featured" />
       <div className={ style.auth }>
         <button className={ style.upgrade }>Music Premium</button>
-        { login ? profileBtn() : loginBtn() }
+        { user.name ? profileBtn() : loginBtn() }
+      </div>
+      <div className={ style.feature }>
+        <button><img src={ search } alt="搜尋" /></button>
+        <button><img src={ menu } alt="開啟選單" /></button>
       </div>
     </div>
   )
