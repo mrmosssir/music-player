@@ -1,5 +1,5 @@
 import { createContext, useEffect, useRef, useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 import Router from "@/Router";
 
@@ -48,10 +48,7 @@ function App() {
     if (params.access_token) {
       cookie.set("token", params.access_token, params.expires_in);
       cookie.set("login", true, 86400);
-      cookieToken = cookie.get("token");
-      setToken(cookieToken);
-      info(cookieToken).then((value) => { if (value) setUser(value) });
-      return;
+      location.href = "/";
     }
     // 確認是否有登入
     if (cookie.check("login")) login();

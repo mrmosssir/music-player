@@ -1,5 +1,7 @@
-import axios from 'axios'
-import qs from 'qs'
+import axios from "axios";
+import qs from "qs";
+
+import cookie from "@/utils/cookie";
 
 const hashParams = function () {
   var params = {};
@@ -23,6 +25,12 @@ const login = function () {
 
   // 跳轉到 Spotify 登入頁
   location.href = `${url}?${query}`;
+}
+
+const logout = function () {
+  cookie.set("token", "", 0);
+  cookie.set("login", false, 0);
+  location.href = "/";
 }
 
 const adminToken = async function () {
@@ -53,4 +61,4 @@ const adminToken = async function () {
   return data.access_token;
 }
 
-export { hashParams, login, adminToken };
+export { hashParams, login, logout, adminToken };

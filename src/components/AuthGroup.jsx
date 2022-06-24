@@ -4,6 +4,7 @@ import { login } from "@/utils/auth";
 
 import style from "@/components/AuthGroup.module.css";
 
+import ProfileMenu from "@/components/ProfileMenu";
 import Theme from "@/components/Theme";
 
 import { context } from "@/App";
@@ -18,6 +19,7 @@ import defaultProfile from "@/assets/default_user.png";
 const AuthGroup = function () {
   const consumer = useContext(context);
   const [ user, setUser ] = useState({ name: "", image: "" });
+  const [ toggle, setToggle ] = useState(false);
 
   useEffect(() => {
     if (!consumer.user) return;
@@ -29,10 +31,11 @@ const AuthGroup = function () {
 
   const profileBtn = function () {
     return (
-      <button className={ style.user }>
+      <button className={ style.user } onClick={ () => setToggle(!toggle) }>
         <img className={ style.profile } src={ user.image } alt={ user.name } />
         { user.name }
         <img className={ style.open } width="10" height="10" src={ triangle } alt="展開" />
+        { toggle ? <ProfileMenu /> : "" }
       </button>
     )
   }

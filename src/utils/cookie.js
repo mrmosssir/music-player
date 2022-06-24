@@ -8,12 +8,12 @@ const get = function (name) {
 const set = function (name, value, expires) {
   const date = new Date();
   if (expires) date.setTime(date.getTime() + (expires * 1000));
-  document.cookie = `${name}=${value};expires=${expires ? date.toUTCString() : ''};path=/`;
+  document.cookie = `${name}=${value};${expires ? 'expires=' + date.toUTCString() : 'max-age=0'};path=/`;
 };
 
 const check = function (name) {
   return document.cookie.split('; ').some((item) => item.indexOf(`${name}=`) === 0);
-}
+};
 
 const cookie = { get, set, check };
 

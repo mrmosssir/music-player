@@ -21,7 +21,7 @@
 }
 
 .user {
-  @apply flex items-center bg-transparent border border-white-500 px-1;
+  @apply flex items-center bg-transparent border border-white-500 px-1 relative;
 }
 
 .user > .profile {
