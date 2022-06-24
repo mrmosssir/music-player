@@ -1,8 +1,6 @@
 import axios from 'axios'
 import qs from 'qs'
 
-import cookie from '@/utils/cookie';
-
 const hashParams = function () {
   var params = {};
   var e, r = /([^&;=]+)=?([^&;]*)/g,

@@ -16,7 +16,7 @@ export default ({ mode }) => {
         "API_BASE_URL": process.env.API_BASE_URL,
         "CLIENT_ID": process.env.CLIENT_ID,
         "CLIENT_SECRET": process.env.CLIENT_SECRET,
-        "SITE_DOMAIN": process.env.SITE_DOMAIN
+        "SITE_DOMAIN": mode === "development" ? process.env.SITE_DOMAIN_DEV : process.env.SITE_DOMAIN_PROD
       }
     },
     resolve: {

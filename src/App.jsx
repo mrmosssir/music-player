@@ -36,7 +36,7 @@ function App() {
   useEffect(() => {
 
     const params = hashParams();
-    const cookieToken = cookie.get("token");
+    let cookieToken = cookie.get("token");
 
     // 確認是否有 token
     if (cookie.check("token")) {
@@ -48,6 +48,7 @@ function App() {
     if (params.access_token) {
       cookie.set("token", params.access_token, params.expires_in);
       cookie.set("login", true, 86400);
+      cookieToken = cookie.get("token");
       setToken(cookieToken);
       info(cookieToken).then((value) => { if (value) setUser(value) });
       return;
