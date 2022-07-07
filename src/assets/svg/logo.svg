@@ -1,16 +1,15 @@
-<svg width="88" height="29" viewBox="0 0 88 29" fill="none" xmlns="http://www.w3.org/2000/svg">
-<mask id="mask0_17_732" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="4" width="73" height="21">
-<path d="M34.2149 24H31.5782V14.9531C31.5782 14.4766 31.6329 13.8125 31.7422 12.9609L29.3751 22.3242H27.9805L25.6016 12.9609C25.711 13.8281 25.7657 14.4922 25.7657 14.9531V24H23.129V5.66016H25.7188L28.6016 15.7969C28.6329 15.9062 28.6563 16.1836 28.6719 16.6289C28.6719 16.4336 28.6954 16.1562 28.7422 15.7969L31.6251 5.66016H34.2149V24ZM45.5938 22.3242C45.5938 23.4414 45.0313 24 43.9063 24H38.0821C36.9727 24 36.418 23.4414 36.418 22.3242V5.66016H39.1602V21.6445H42.8516V5.66016H45.5938V22.3242ZM56.5977 22.3242C56.5977 23.4414 56.043 24 54.9337 24H49.4141C48.3126 24 47.7618 23.4414 47.7618 22.3242V17.9531H50.504V21.6914H53.8555V18.0938L48.3594 12.8906C47.961 12.5078 47.7618 12.0195 47.7618 11.4258V7.34766C47.7618 6.22266 48.3126 5.66016 49.4141 5.66016H54.9337C56.043 5.66016 56.5977 6.21484 56.5977 7.32422V11.4258H53.8555V7.96875H50.504V11.2852L56.0001 16.4648C56.3985 16.8398 56.5977 17.3359 56.5977 17.9531V22.3242ZM61.5665 24H58.8243V5.66016H61.5665V24ZM72.8399 22.3242C72.8399 23.4414 72.2813 24 71.1641 24H65.4454C64.3594 24 63.8165 23.4414 63.8165 22.3242V7.34766C63.8165 6.22266 64.3594 5.66016 65.4454 5.66016H71.1641C72.2813 5.66016 72.8399 6.22266 72.8399 7.34766V11.6367H70.1094V8.01562H66.5587V21.6445H70.1094V17.7891H72.8399V22.3242Z" fill="#FF0099"/>
-<path d="M12.6028 23V10.5" stroke="#FF0099" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M9.06848 23L9.06848 18" stroke="#FF0099" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M2 23L2 16" stroke="#FF0099" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M5.53424 23L5.53424 6" stroke="#FF0099" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<svg width="29" height="31" viewBox="0 0 29 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_253_6" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="29" height="31">
+<path d="M26 28.5V9.75" stroke="#FF0099" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M18.3333 28.5L18.3333 21" stroke="#FF0099" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M3 28.5L3 18" stroke="#FF0099" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M10.6668 28.5L10.6668 3" stroke="#FF0099" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
 </mask>
-<g mask="url(#mask0_17_732)">
-<rect x="-1" y="4" width="89" height="22" fill="url(#paint0_linear_17_732)"/>
+<g mask="url(#mask0_253_6)">
+<rect x="-0.285715" width="29.5714" height="31.5" fill="url(#paint0_linear_253_6)"/>
 </g>
 <defs>
-<linearGradient id="paint0_linear_17_732" x1="-1" y1="26" x2="88" y2="26" gradientUnits="userSpaceOnUse">
+<linearGradient id="paint0_linear_253_6" x1="-0.285715" y1="31.5" x2="29.2857" y2="31.5" gradientUnits="userSpaceOnUse">
 <stop stop-color="#FF5E67"/>
 <stop offset="1" stop-color="#7600AE"/>
 </linearGradient>

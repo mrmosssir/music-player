@@ -8,10 +8,10 @@
 
 .content > h2 {
   @apply text-white text-2xl font-bold;
-  @apply md:text-4xl;
+  @apply lg:text-4xl;
 }
 
 .content > small {
   @apply hidden text-secondary text-xs tracking-widest text-center;
-  @apply md:block;
+  @apply lg:block;
 }

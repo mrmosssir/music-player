@@ -1,9 +1,8 @@
 import axios from "axios";
 import qs from "qs";
 
-const getNewRealse = async function (token, country) {
+const getNewRelease = async function (token, country) {
   let url = `${process.env.API_BASE_URL}/browse/new-releases`;
-  console.log(country);
   const config = {
     method: "GET",
     url: `${url}?${qs.stringify({ country: country, limit: 8 })}`,
@@ -30,7 +29,7 @@ const getNewRealse = async function (token, country) {
 }
 
 const getFeaturedPlayList = async function (token, country) {
-  let url = `${process.env.API_BASE_URL}/browse/featured-playlists`;
+  const url = `${process.env.API_BASE_URL}/browse/featured-playlists`;
   const config = {
     method: "GET",
     url: `${url}?${qs.stringify({ country: country, limit: 8 })}`,
@@ -56,6 +55,52 @@ const getFeaturedPlayList = async function (token, country) {
   })
 }
 
-const browse = { getNewRealse, getFeaturedPlayList };
+const getTopPlayListId = async function (token, country) {
+  const url = `${process.env.API_BASE_URL}/browse/categories/toplists/playlists`;
+  const config = {
+    method: "GET",
+    url: `${url}?${qs.stringify({ country: country, limit: 20 })}`,
+    headers: {
+      "Authorization": `Bearer ${token}`,
+      "Content-Type": "application/x-www-form-urlencoded"
+    }
+  };
+  const { data } = await axios(config);
+  if (data.error) return false;
+  const id = data.playlists.items.filter(item => item.name.indexOf("50") >= 0)[3].id;
+  return id;
+}
+
+const getTopPlayList = async function (token, id) {
+  const url = `${process.env.API_BASE_URL}/playlists/${id}`;
+  const config = {
+    method: "GET",
+    url: url,
+    headers: {
+      "Authorization": `Bearer ${token}`,
+      "Content-Type": "application/x-www-form-urlencoded"
+    }
+  };
+  const { data } = await axios(config);
+  if (data.error) return false;
+  const list = data.tracks.items;
+  return list.map((item, index) => {
+    const album = item.track?.album;
+    return {
+      key: `${album.id}${index}`,
+      id: album.id,
+      name: album.name,
+      image: album.images[0]?.url,
+      artist: album.artists[0]?.name
+    }
+  });
+}
+
+const browse = {
+  getNewRelease,
+  getFeaturedPlayList,
+  getTopPlayList,
+  getTopPlayListId
+};
 
 export default browse;

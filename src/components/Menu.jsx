@@ -5,19 +5,22 @@ import style from "@/components/Menu.module.css";
 import favorite from "@/assets/svg/favorite.svg";
 
 const Menu = function (props) {
-  const renderItem = function (item) {
-    return !item.favorite ? 
-      <li className="text-white" key={ item.name }>
-        <Link to="/">{ item.name }</Link>
-      </li> :
-      <li className="text-secondary" key={ item.name }>
-        <Link to="/">{ item.name }</Link>
-        <img src={ favorite } alt="最愛" />     
-      </li>
+  const prefix = "music-player";
+
+  const favoriteIcon = function (isFavorite) {
+    return isFavorite ? <img src={ favorite } alt="最愛" /> : "";
   }
+  
   return (
     <ul className={ style.menu }>
-      { props.list.map((item) => renderItem(item)) }
+      { props.list.map((item) => {
+        return (
+          <li className={ item.favorite ? "text-secondary" : "text-white"} key={ item.name }>
+            <Link to={ `/${prefix}/${item.path ?? ""}` }>{ item.name }</Link>
+            { favoriteIcon(item.favorite) }
+          </li>
+        )
+      }) }
     </ul>
   )
 }

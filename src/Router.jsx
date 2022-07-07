@@ -1,12 +1,17 @@
 import { Routes, Route } from "react-router-dom"
 
 import Main from "@/views/Main";
+import Top from "@/views/Top";
 
 const Router = function () {
   const prefix = "/music-player"
+  const routes = [
+    { name: "home", path: "", component: <Main /> },
+    { name: "top", path: "top", component: <Top /> },
+  ]
   return (
     <Routes>
-      <Route path={ `${prefix}/` } element={ <Main /> }></Route>
+      { routes.map(item => <Route path={ `${prefix}/${item.path}` } element={ item.component } key={ item.name }></Route>) }
     </Routes>
   )
 }

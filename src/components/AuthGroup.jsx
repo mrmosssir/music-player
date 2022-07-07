@@ -4,19 +4,20 @@ import { login } from "@/utils/auth";
 
 import style from "@/components/AuthGroup.module.css";
 
+import Logo from "@/components/Logo";
 import ProfileMenu from "@/components/ProfileMenu";
 import Theme from "@/components/Theme";
 
 import { context } from "@/App";
 
-import logo from "@/assets/svg/logo.svg";
+// import logo from "@/assets/svg/logo.svg";
 import menu from "@/assets/svg/menu.svg";
 import search from "@/assets/svg/search.svg";
 import triangle from "@/assets/svg/triangle.svg";
 
 import defaultProfile from "@/assets/default_user.png";
 
-const AuthGroup = function () {
+const AuthGroup = function (props) {
   const consumer = useContext(context);
   const [ user, setUser ] = useState({ name: "", image: "" });
   const [ toggle, setToggle ] = useState(false);
@@ -42,14 +43,14 @@ const AuthGroup = function () {
 
   return (
     <div className={ style.frame }>
-      <img src={ logo } alt="logo" className={ style.logo } />
-      <Theme main="每日精選" sub="Daily Featured" />
+      <Logo type="mobile" />
+      <Theme main={ props.title } sub={ props.subTitle } icon={ props.icon } />
       <div className={ style.auth }>
         <button className={ style.upgrade }>Music Premium</button>
         { user.name ? profileBtn() : loginBtn() }
       </div>
       <div className={ style.feature }>
-        <button><img src={ search } alt="搜尋" /></button>
+        <button onClick={ consumer.toggleSearch }><img src={ search } alt="搜尋" /></button>
         <button><img src={ menu } alt="開啟選單" /></button>
       </div>
     </div>

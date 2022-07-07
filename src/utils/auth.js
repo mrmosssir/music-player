@@ -20,8 +20,9 @@ const login = function () {
   const id = process.env.CLIENT_ID;
   const type = 'token';
   const redirect = process.env.SITE_DOMAIN;
+  const scopes = "user-read-private user-read-email"
 
-  const query = `client_id=${id}&response_type=${type}&redirect_uri=${redirect}`;
+  const query = `client_id=${id}&response_type=${type}&redirect_uri=${redirect}&scope=${scopes}`;
 
   // 跳轉到 Spotify 登入頁
   location.href = `${url}?${query}`;
@@ -30,7 +31,7 @@ const login = function () {
 const logout = function () {
   cookie.set("token", "", 0);
   cookie.set("login", false, 0);
-  location.href = "/";
+  location.href = "/music-player/";
 }
 
 const adminToken = async function () {

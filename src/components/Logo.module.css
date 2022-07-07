@@ -1,0 +1,21 @@
+@import url('http://fonts.cdnfonts.com/css/agency-fb');
+
+
+.logo.web {
+  @apply hidden justify-center items-end;
+  @apply lg:flex;
+}
+
+.logo.mobile {
+  @apply flex items-end absolute top-0 left-0;
+  @apply lg:hidden;
+}
+
+.logo > img {
+  @apply w-[26px] h-[26px] block mr-1;
+}
+
+.logo > p {
+  @apply text-white font-bold text-2xl leading-5;
+  font-family: 'Agency FB', sans-serif;
+}

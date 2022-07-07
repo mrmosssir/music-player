@@ -32,7 +32,7 @@ module.exports = {
       'light': ['PingFangTC-Light'],
       'regular': ['PingFangTC-Regular'],
       'medium': ['PingFangTC-Medium'],
-      'bold': ['PingFangSC-Semibold']
+      'bold': ['PingFangTC-Semibold']
     },
     extend: {},
   },

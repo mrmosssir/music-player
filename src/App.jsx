@@ -18,6 +18,8 @@ function App() {
   const [ token, setToken ] = useState("");
   const [ cols, setCols ] = useState(7);
   const [ user, setUser ] = useState(null);
+  const [ sidebarOpen, setSidebarOpen ] = useState(false);
+  const [ searchOpen, setSearchOpen ] = useState(false);
 
   const ref = useRef(0);
 
@@ -32,6 +34,9 @@ function App() {
       setCols(7);
     }
   }
+
+  const toggleSidebar = function () { setSidebarOpen(!sidebarOpen) }
+  const toggleSearch = function () { setSearchOpen(!searchOpen) }
 
   useEffect(() => {
 
@@ -48,7 +53,7 @@ function App() {
     if (params.access_token) {
       cookie.set("token", params.access_token, params.expires_in);
       cookie.set("login", true, 86400);
-      location.href = "/";
+      location.href = "/music-player/";
     }
     // 確認是否有登入
     if (cookie.check("login")) login();
@@ -58,11 +63,11 @@ function App() {
   }, [])
 
   return (
-    <div className="bg-primary-100 h-screen flex justify-between">
-      <SearchBar />
+    <div className="bg-primary-100 min-h-screen md:h-screen flex justify-between">
+      <SearchBar open={ searchOpen } toggle={ toggleSearch } token={ token } />
       <div className="wrap">
         <div ref={ ref } className="w-full transition-all duration-500">
-          <context.Provider value={{ cols, token, user }}>
+          <context.Provider value={{ cols, token, user, toggleSearch }}>
             <Router />
           </context.Provider>
         </div>
