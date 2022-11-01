@@ -4,31 +4,26 @@
 
 *, body * {
   @apply font-regular;
-}
 
-body {
-  @apply overflow-hidden;
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;
   scrollbar-width: none;
 }
 
-body::-webkit-scrollbar {
-  display: none;
+body {
+  @apply overflow-x-hidden bg-primary-100;
+}
+
+body::-webkit-scrollbar, body *::-webkit-scrollbar {
+  @apply hidden;
 }
 
 .wrap {
   @apply w-full box-border relative mx-auto overflow-scroll;
-
-  /* Hide scrollbar for IE, Edge and Firefox */
-  -ms-overflow-style: none;
-  scrollbar-width: none;
 }
 
 .container {
   @apply h-full w-4/5 mx-auto py-10;
-
-  /* Hide scrollbar for IE, Edge and Firefox */
-  -ms-overflow-style: none;
-  scrollbar-width: none;
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */

@@ -7,22 +7,31 @@ import themeIcon from "@/assets/svg/menu-leader-board.svg";
 
 import browse from "@/utils/browse";
 
-import { context } from "@/App";
+// import { context } from "@/App";
+import { InjectContext } from "@/context";
+import { setMainRef } from "@/context/Size/action";
+import { useRef } from "react";
 
 const Top = function () {
-  
-  const consumer = useContext(context);
+  const ref = useRef(null);
+  const { authContext } = useContext(InjectContext);
+  const { sizeDispatch } = useContext(InjectContext);
 
   const [ country, setCountry ] = useState("TW");
   const [ list, setList ] = useState([]);
   
   useEffect(() => {
-    if (!consumer.token) return;
-    browse.getTopPlayListId(consumer.token, country).then(async(id) => {
-      const bufferList = await browse.getTopPlayList(consumer.token, id);
+    const token = authContext["token"];
+    if (!token) return;
+    browse.getTopPlayListId(token, country).then(async(id) => {
+      const bufferList = await browse.getTopPlayList(token, id);
       setList(bufferList);
     });
-  }, [consumer.token, country]);
+  }, [authContext["token"], country]);
+
+  useEffect(() => {
+    sizeDispatch(setMainRef(ref))
+  }, [ref]);
 
   return (
     <div className="container">

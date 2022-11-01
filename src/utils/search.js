@@ -13,7 +13,6 @@ const searchAlbum = async function (token, keyword) {
   };
   const { data } = await axios(config);
   if (data.error) return false;
-  console.log(data);
   const artists = data.artists.items.filter((item, index) => index < 5)
     .map((item) => { return {
       id: item.id,

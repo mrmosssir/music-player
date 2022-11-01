@@ -3,33 +3,39 @@ import { useState, useRef, useEffect, useContext } from "react";
 import style from "@/components/PreviewList.module.css";
 
 import { Link } from "react-router-dom";
-import { context } from "@/App";
+import { InjectContext } from "@/context";
 
 const PreviewList = function (props) {
 
-  const test_array = [1, 1, 1, 1, 1, 1, 1];
-
   const ref = useRef(null);
-  const consumer = useContext(context);
+  const { sizeContext } = useContext(InjectContext);
 
   const [size, setSize] = useState("100%")
 
   const sizeChange = function (column) {
+    const device = {
+      "sm": 640,
+      "md": 768,
+      "lg": 1024,
+      "xl": 1280,
+      "2xl": 1536
+    };
     const width = ref.current.offsetWidth;
+    const innerWidth = window.innerWidth
     const gutter = 2; // percents
-    const size = width / 100 * (100 - (gutter * (column - 1))) / column;
+    let size = 100
+    if (innerWidth > device.lg) size = width / 100 * (100 - (gutter * (column - 1))) / column;
     setSize(`${size}px`);
   }
 
   useEffect(() => {
     if (!ref.current) return;
-    const display = test_array.filter((item, index) => index < consumer.cols);
     ref.current.classList.add("opacity-0");
     setTimeout(() => {
-      sizeChange(consumer.cols);
+      sizeChange(sizeContext["previewListCols"]);
     }, 400)
     setTimeout(() => { ref.current.classList.remove("opacity-0") }, 500);
-  }, [consumer.cols])
+  }, [sizeContext["previewListCols"]])
 
   return (
     <div ref={ ref } className={ style.preview }>
@@ -40,7 +46,7 @@ const PreviewList = function (props) {
       <ul className={ style.list }>
         {
           props.list.filter((item, index) => {
-            return index < consumer.cols;
+            return index < sizeContext["previewListCols"];
           }).map((item, index) => {
             return (
               <li className={ style.item } style={{ width: size }} key={ index }>

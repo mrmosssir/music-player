@@ -1,0 +1,7 @@
+.mask {
+  @apply hidden w-screen h-screen bg-black-500 absolute top-0 left-0 z-10;
+}
+
+.active {
+  @apply block;
+}

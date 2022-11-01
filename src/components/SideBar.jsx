@@ -8,22 +8,54 @@ import add from "@/assets/svg/add.svg";
 import arrow from "@/assets/svg/arrow.svg";
 import musicList from "@/assets/svg/music-list.svg";
 
+import { InjectContext } from "@/context";
+import { setMaskDisplay } from "@/context/Display/action";
+import { setMainRef, setPreviewListCols } from "@/context/Size/action";
+import { useContext } from "react";
+
 const SideBar = function (props) {
   const [active, setActive] = useState(false);
-  const ref = useRef(0);
+  const { displayDispatch, sizeContext, sizeDispatch } = useContext(InjectContext);
+  const ref = useRef(null);
+
+  const handleWidth = function (status, width) {
+    const mainRef = sizeContext["mainRef"]
+    if (!mainRef.current) return;
+    const wrapWidth = mainRef.current.offsetWidth;
+    const innerWidth = window.innerWidth
+    const device = {
+      "sm": 640,
+      "md": 768,
+      "lg": 1024,
+      "xl": 1280,
+      "2xl": 1536
+    };
+    const sideBarDisabled = innerWidth > device.lg && innerWidth <= device.xl;
+    const previewListDisabled = innerWidth < device.lg;
+    if (status && !sideBarDisabled) {
+      mainRef.current.style.width = `${wrapWidth - width}px`;
+      sizeDispatch(setMainRef(mainRef));
+      if (!previewListDisabled) sizeDispatch(setPreviewListCols(5));
+    } else {
+      if (sideBarDisabled) displayDispatch(setMaskDisplay({ maskDisplay: status ? true : false }))
+      mainRef.current.style.width = "100%";
+      sizeDispatch(setMainRef(mainRef));
+      sizeDispatch(setPreviewListCols(7));
+    }
+  }
 
   const close = function () {
     setActive(false);
-    props.resize(false);
+    handleWidth(false);
   };
 
   const open = function () {
     setActive(true);
-    props.resize(true, ref.current.offsetWidth);
+    handleWidth(true, ref.current.offsetWidth);
   };
 
   return (
-    <div ref={ ref } className={ `${ style.sidebar } ${ active ? style.active : "" }`}>
+    <div ref={ref} className={ `${ style.sidebar } ${ active ? style.active : "" }`}>
       <div className={ style.header }>
         <button onClick={ close }><img width="8" height="8" src={ arrow } alt="關閉" /></button>
         <div className={ style.nav }>

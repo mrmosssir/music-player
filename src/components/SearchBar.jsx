@@ -11,10 +11,11 @@ import Menu from "@/components/Menu";
 import arrow from "@/assets/svg/arrow.svg";
 import search from "@/assets/svg/search.svg";
 
-
+import { InjectContext } from "@/context";
+import { useContext } from "react";
 
 function SearchBar(props) {
-
+  const { authContext, displayContext } = useContext(InjectContext);
   const ref = useRef(null);
 
   const handleKeyPress = function (event) {
@@ -23,14 +24,14 @@ function SearchBar(props) {
   }
 
   const handleSearch = function () {
-    if (!ref.current || !props.token) return;
+    if (!ref.current || !authContext["token"]) return
     const keyword = ref.current.value;
     if (!keyword) return;
-    searchAlbum(props.token, keyword);
+    searchAlbum(authContext["token"], keyword);
   }
 
   return (
-    <div className={ `${style.frame} ${props.open ? style.active : ''}` }>
+    <div className={ `${style.frame} ${displayContext["searchDisplay"] ? style.active : ''}` }>
       <Logo type="web" />
       <div className={ style.search }>
         <button className={ style.close } onClick={ props.toggle }>

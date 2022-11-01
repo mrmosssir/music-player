@@ -15,7 +15,13 @@
 }
 
 .list {
-  @apply w-full flex justify-between items-center mt-3;
+  @apply w-full block mt-3 whitespace-nowrap overflow-x-scroll;
+  @apply lg:flex lg:justify-between lg:items-center;
+}
+
+.item {
+  @apply inline-block mr-4;
+  @apply lg:mr-0
 }
 
 .item > p {

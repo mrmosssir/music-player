@@ -1,5 +1,6 @@
 import axios from "axios";
 import qs from "qs";
+import { adminToken, login } from './auth';
 
 const getNewRelease = async function (token, country) {
   let url = `${process.env.API_BASE_URL}/browse/new-releases`;
@@ -38,21 +39,29 @@ const getFeaturedPlayList = async function (token, country) {
       "Content-Type": "application/x-www-form-urlencoded"
     }
   };
-  const { data } = await axios(config);
-  if (data.error) return false;
-  return data.playlists.items.map((item) => {
-    let image = "";
-    if (!item.images) image = "";
-    else if (item.images.length > 1) image = item.images[1].url ?? "";
-    else if (item.images.length > 0) image = item.images[0].url ?? "";
-    return {
-      id: item.id,
-      type: item.album_type,
-      name: item.name,
-      artists: item.owner.display_name,
-      image
-    };
-  })
+  try {
+    const { data } = await axios(config);
+    if (data.error) return false;
+    return data.playlists.items.map((item) => {
+      let image = "";
+      if (!item.images) image = "";
+      else if (item.images.length > 1) image = item.images[1].url ?? "";
+      else if (item.images.length > 0) image = item.images[0].url ?? "";
+      return {
+        id: item.id,
+        type: item.album_type,
+        name: item.name,
+        artists: item.owner.display_name,
+        image,
+        status: 0
+      };
+    })
+  } catch (error) {
+    if (error.response.status === 401) {
+      const admin = await adminToken();
+      return { token: admin, status: 401 }
+    }
+  }
 }
 
 const getTopPlayListId = async function (token, country) {
