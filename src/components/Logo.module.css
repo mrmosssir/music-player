@@ -1,5 +1,4 @@
-@import url('http://fonts.cdnfonts.com/css/agency-fb');
-
+@import url('@/assets/fonts/agency-fb.css');
 
 .logo.web {
   @apply hidden justify-center items-end;

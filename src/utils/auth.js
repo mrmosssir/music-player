@@ -13,6 +13,17 @@ const hashParams = function () {
   return params;
 }
 
+export const test = function () {
+  const config = {
+    method: 'GET',
+    url: "http://127.0.0.1:5001/sumi-player/us-central1/helloWorld",
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  };
+  axios(config);
+}
+
 const login = function () {
 
   const url = `${process.env.AUTH_BASE_URL}/authorize`;

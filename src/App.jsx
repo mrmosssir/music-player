@@ -4,10 +4,13 @@ import Router from "@/Router";
 import Layout from "@/layouts/Layout";
 
 import Context from "@/context";
-
+import { test } from "@/utils/auth"
 export const context = createContext();
 
 function App() {
+  useEffect(() => {
+    test()
+  }, [])
   return (
     <Context>
       <Layout>
