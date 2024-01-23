@@ -5,10 +5,6 @@
   @apply flex mt-3;
 }
 
-.menu > li > a {
-  @apply font-medium;
-}
-
 .menu > li > img {
   @apply ml-3;
 }
