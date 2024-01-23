@@ -20,7 +20,7 @@
 }
 
 .content p {
-  @apply text-white font-bold;
+  @apply text-white;
 }
 
 .content small {

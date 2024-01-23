@@ -1,23 +1,18 @@
-import { createContext, useEffect, useRef, useState } from "react";
+import { Provider } from "react-redux";
 import Router from "@/Router";
 
 import Layout from "@/layouts/Layout";
 
-import Context from "@/context";
-import { test } from "@/utils/auth"
-export const context = createContext();
+import store from "@/store";
 
 function App() {
-  useEffect(() => {
-    test()
-  }, [])
-  return (
-    <Context>
-      <Layout>
-        <Router />
-      </Layout>
-    </Context>
-  )
+    return (
+        <Provider store={store}>
+            <Layout>
+                <Router />
+            </Layout>
+        </Provider>
+    );
 }
 
-export default App
+export default App;

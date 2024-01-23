@@ -1,19 +1,23 @@
 import style from "@/layouts/Layout.module.css";
 
-import { useContext, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
 
 import SearchBar from "@/components/SearchBar";
 import SideBar from "@/components/SideBar";
 import Mask from "@/components/Mask";
 
-import { InjectContext } from "@/context";
-import { setMainRef } from "@/context/Size/action";
+import { setMainRef } from "@/store/Display.model";
 
 const Layout = function ({ children }) {
-  const ref = useRef(null);
-  const { sizeDispatch } = useContext(InjectContext);
 
-  useEffect(() => sizeDispatch(setMainRef(ref)), []);
+  const dispatch = useDispatch();
+
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (ref) dispatch(setMainRef(ref))
+  }, []);
 
   return (
     <div ref={ ref } className={ style.layout }>
