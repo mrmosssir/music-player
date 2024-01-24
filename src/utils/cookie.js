@@ -1,4 +1,3 @@
-
 const get = function (name) {
   if (!document.cookie) return false;
   const arr = document.cookie.split('; ');

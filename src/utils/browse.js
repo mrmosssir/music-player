@@ -1,115 +1,162 @@
-import axios from "axios";
 import qs from "qs";
-import { adminToken, login } from './auth';
+
+import { adminToken } from "@/utils/auth";
+import { axiosRequest } from "@/utils/base";
 
 const getNewRelease = async function (token, country) {
-  let url = `${process.env.API_BASE_URL}/browse/new-releases`;
-  const config = {
-    method: "GET",
-    url: `${url}?${qs.stringify({ country: country, limit: 8 })}`,
-    headers: {
-      "Authorization": `Bearer ${token}`,
-      "Content-Type": "application/x-www-form-urlencoded"
-    }
-  };
-  const { data } = await axios(config);
-  if (data.error) return false;
-  return data.albums.items.map((item) => {
-    let image = "";
-    if (!item.images) image = "";
-    else if (item.images.length > 1) image = item.images[1].url ?? "";
-    else if (item.images.length > 0) image = item.images[0].url ?? "";
-    return {
-      id: item.id,
-      type: item.album_type,
-      name: item.name,
-      artists: item.artists[0].name,
-      image
+    let url = `${process.env.API_BASE_URL}/browse/new-releases`;
+    const config = {
+        method: "GET",
+        url: `${url}?${qs.stringify({ country: country, limit: 8 })}`,
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
     };
-  })
-}
+    const { data } = await axiosRequest(config);
+    if (data.error) return false;
+    return data.albums.items.map((item) => {
+        let image = "";
+        if (!item.images) image = "";
+        else if (item.images.length > 1) image = item.images[1].url ?? "";
+        else if (item.images.length > 0) image = item.images[0].url ?? "";
+        return {
+            id: item.id,
+            type: item.album_type,
+            name: item.name,
+            artists: item.artists[0].name,
+            image,
+        };
+    });
+};
 
 const getFeaturedPlayList = async function (token, country) {
-  const url = `${process.env.API_BASE_URL}/browse/featured-playlists`;
-  const config = {
-    method: "GET",
-    url: `${url}?${qs.stringify({ country: country, limit: 8 })}`,
-    headers: {
-      "Authorization": `Bearer ${token}`,
-      "Content-Type": "application/x-www-form-urlencoded"
+    const url = `${process.env.API_BASE_URL}/browse/featured-playlists`;
+    const config = {
+        method: "GET",
+        url: `${url}?${qs.stringify({ country: country, limit: 8 })}`,
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+    };
+    try {
+        const { data } = await axiosRequest(config);
+        if (data.error) return false;
+        return data.playlists.items.map((item) => {
+            let image = "";
+            if (!item.images) image = "";
+            else if (item.images.length > 1) image = item.images[1].url ?? "";
+            else if (item.images.length > 0) image = item.images[0].url ?? "";
+            return {
+                id: item.id,
+                type: item.album_type,
+                name: item.name,
+                artists: item.owner.display_name,
+                image,
+                status: 0,
+            };
+        });
+    } catch (error) {
+        if (error.response.status === 401) {
+            const admin = await adminToken();
+            return { token: admin, status: 401 };
+        }
     }
-  };
-  try {
-    const { data } = await axios(config);
-    if (data.error) return false;
-    return data.playlists.items.map((item) => {
-      let image = "";
-      if (!item.images) image = "";
-      else if (item.images.length > 1) image = item.images[1].url ?? "";
-      else if (item.images.length > 0) image = item.images[0].url ?? "";
-      return {
-        id: item.id,
-        type: item.album_type,
-        name: item.name,
-        artists: item.owner.display_name,
-        image,
-        status: 0
-      };
-    })
-  } catch (error) {
-    if (error.response.status === 401) {
-      const admin = await adminToken();
-      return { token: admin, status: 401 }
-    }
-  }
-}
+};
 
 const getTopPlayListId = async function (token, country) {
-  const url = `${process.env.API_BASE_URL}/browse/categories/toplists/playlists`;
-  const config = {
-    method: "GET",
-    url: `${url}?${qs.stringify({ country: country, limit: 20 })}`,
-    headers: {
-      "Authorization": `Bearer ${token}`,
-      "Content-Type": "application/x-www-form-urlencoded"
-    }
-  };
-  const { data } = await axios(config);
-  if (data.error) return false;
-  const id = data.playlists.items.filter(item => item.name.indexOf("50") >= 0)[3].id;
-  return id;
-}
+    const url = `${process.env.API_BASE_URL}/browse/categories/toplists/playlists`;
+    const config = {
+        method: "GET",
+        url: `${url}?${qs.stringify({ country: country, limit: 20 })}`,
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+    };
+    const { data } = await axiosRequest(config);
+    if (data.error) return false;
+    const id = data.playlists.items.filter(
+        (item) => item.name.indexOf("50") >= 0
+    )[3].id;
+    return id;
+};
 
 const getTopPlayList = async function (token, id) {
-  const url = `${process.env.API_BASE_URL}/playlists/${id}`;
-  const config = {
-    method: "GET",
-    url: url,
-    headers: {
-      "Authorization": `Bearer ${token}`,
-      "Content-Type": "application/x-www-form-urlencoded"
-    }
-  };
-  const { data } = await axios(config);
-  if (data.error) return false;
-  const list = data.tracks.items;
-  return list.map((item, index) => {
-    const album = item.track?.album;
-    return {
-      key: `${album.id}${index}`,
-      id: album.id,
-      name: album.name,
-      image: album.images[0]?.url,
-      artist: album.artists[0]?.name
-    }
-  });
+    const url = `${process.env.API_BASE_URL}/playlists/${id}`;
+    const config = {
+        method: "GET",
+        url: url,
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+    };
+    const { data } = await axiosRequest(config);
+    if (data.error) return false;
+    const list = data.tracks.items;
+    return list.map((item, index) => {
+        const album = item.track?.album;
+        return {
+            key: `${album.id}${index}`,
+            id: album.id,
+            name: album.name,
+            image: album.images[0]?.url,
+            artist: album.artists[0]?.name,
+        };
+    });
+};
+
+const getUserPlayList = async function (token, userId) {
+    const url = `${process.env.API_BASE_URL}/users/${userId}/playlists`;
+    const config = {
+        method: "GET",
+        url: url,
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+    };
+    const { data } = await axiosRequest(config);
+
+    if (data.error) return;
+
+    const list = data.items.map(item => {
+        return {
+            id: item.id,
+            image: item.images[0].url,
+            name: item.name,
+            total: item.tracks.total
+        }
+    });
+
+    return list;
+}
+
+const getPlayListTracks = async function (token, id) {
+    const url = `${process.env.API_BASE_URL}/playlists/${id}`;
+    const config = {
+        method: "GET",
+        url: url,
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+    };
+    const { data } = await axiosRequest(config);
+
+    if (data.error) return;
+    return data.tracks.items;
 }
 
 const browse = {
-  getNewRelease,
-  getFeaturedPlayList,
-  getTopPlayList,
-  getTopPlayListId
+    getNewRelease,
+    getFeaturedPlayList,
+    getTopPlayList,
+    getTopPlayListId,
+    getUserPlayList,
+    getPlayListTracks
 };
 
 export default browse;

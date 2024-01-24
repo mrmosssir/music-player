@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 
-import { hashParams, login, adminToken } from "@/utils/auth";
+import { useQuery } from "@/hooks";
+
+import { login, adminToken, clientToken } from "@/utils/auth";
 import { info } from "@/utils/user";
 import cookie from "@/utils/cookie";
 
@@ -24,12 +27,15 @@ const AuthGroup = function (props) {
     const user = useSelector((state) => state.auth.user);
 
     const [toggle, setToggle] = useState(false);
+    
+    const query = useQuery();
 
     const checkLogin = async function () {
-        const params = hashParams();
-        let cookieToken = cookie.get("token");
-        // 確認是否有 token
-        if (cookie.check("token")) {
+
+        const cookieToken = cookie.get("token");
+
+        // 有 token 就直接取得用戶資料
+        if (cookieToken) {
             await dispatch(setToken(cookieToken));
             const userData = await info(cookieToken);
             if (userData) {
@@ -50,14 +56,21 @@ const AuthGroup = function (props) {
             }
             return;
         }
-        // 確認 params 是否有 access_token
-        if (params.access_token) {
-            cookie.set("token", params.access_token, params.expires_in);
-            cookie.set("login", true, 86400);
-            location.href = "/music-player/";
+
+        const code = query.get("code");
+        const state = query.get("state");
+        
+        // 如果是從登入頁過來
+        if (code) {
+            const tokenData = await clientToken(code, state);
+            if (tokenData.access_token) {
+                cookie.set("token", tokenData.access_token, tokenData.expires_in);
+                localStorage.setItem("refresh_token", tokenData.refresh_token);
+                location.href = "/music-player/";
+                return;
+            }
         }
-        // 確認是否有登入
-        if (cookie.check("login")) login();
+
         // 都沒有就取得 admin token
         const adminData = await adminToken();
         if (adminData) dispatch(setToken(adminData));
