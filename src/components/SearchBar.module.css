@@ -15,7 +15,7 @@
 }
 
 .search > input {
-  @apply text-sm w-11/12 rounded-full text-white bg-white-100 px-5 py-2 border;
+  @apply text-sm w-full rounded-full text-white bg-white-100 px-5 py-2 border;
 }
 
 .search > .exec {

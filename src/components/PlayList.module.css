@@ -6,7 +6,7 @@
 }
 
 .header > p {
-  @apply text-white mx-4
+  @apply text-white mr-4
 }
 
 .header > img {
@@ -47,4 +47,13 @@
 
 .active {
   @apply bg-primary-300
+}
+
+.arrow-rotate {
+  transform: rotate(0deg) !important;
+}
+
+.image {
+  width: 49px;
+  height: 49px;
 }

@@ -34,9 +34,9 @@ const SearchBar = function (props) {
         <div className={`${style.frame} ${searchDisplay ? style.active : ""}`}>
             <Logo type="web" />
             <div className={style.search}>
-                <button className={style.close} onClick={props.toggle}>
+                {/* <button className={style.close} onClick={props.toggle}>
                     <img src={arrow} alt="關閉" />
-                </button>
+                </button> */}
                 <input
                     type="text"
                     placeholder="搜尋曲名、歌手或專輯"
