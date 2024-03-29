@@ -14,9 +14,9 @@
   @apply sm:w-full;
 }
 
-.search > input {
+/* .search > input {
   @apply text-sm w-full rounded-full text-white bg-white-100 px-5 py-2 border;
-}
+} */
 
 .search > .exec {
   @apply absolute top-[10px] right-5;

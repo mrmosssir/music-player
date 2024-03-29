@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 
 import SearchBar from "@/components/SearchBar";
-import SideBar from "@/components/SideBar";
+import PlayListBar from "@/components/PlayListBar";
 import Mask from "@/components/Mask";
 
 import { setMainRef } from "@/store/Display.model";
@@ -25,7 +25,7 @@ const Layout = function ({ children }) {
         <div className={ style.children }>
           { children }
         </div>
-      <SideBar />
+      <PlayListBar />
       <Mask />
     </div>
   )

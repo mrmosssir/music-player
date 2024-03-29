@@ -38,6 +38,7 @@ const SearchBar = function (props) {
                     <img src={arrow} alt="關閉" />
                 </button> */}
                 <input
+                    className="input"
                     type="text"
                     placeholder="搜尋曲名、歌手或專輯"
                     onKeyPress={handleKeyPress}

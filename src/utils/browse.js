@@ -17,9 +17,7 @@ const getNewRelease = async function (token, country) {
     if (data.error) return false;
     return data.albums.items.map((item) => {
         let image = "";
-        if (!item.images) image = "";
-        else if (item.images.length > 1) image = item.images[1].url ?? "";
-        else if (item.images.length > 0) image = item.images[0].url ?? "";
+        if (item.images.length) image = item.images[0].url ?? "";
         return {
             id: item.id,
             type: item.album_type,
@@ -45,9 +43,7 @@ const getFeaturedPlayList = async function (token, country) {
         if (data.error) return false;
         return data.playlists.items.map((item) => {
             let image = "";
-            if (!item.images) image = "";
-            else if (item.images.length > 1) image = item.images[1].url ?? "";
-            else if (item.images.length > 0) image = item.images[0].url ?? "";
+            if (item.images.length) image = item.images[0].url ?? "";
             return {
                 id: item.id,
                 type: item.album_type,
@@ -109,6 +105,7 @@ const getTopPlayList = async function (token, id) {
 };
 
 const getUserPlayList = async function (token, userId) {
+    console.log(userId);
     const url = `${process.env.API_BASE_URL}/users/${userId}/playlists`;
     const config = {
         method: "GET",
@@ -122,16 +119,13 @@ const getUserPlayList = async function (token, userId) {
 
     if (data.error) return;
 
-    const list = data.items.map(item => {
+    return data.items.map(item => {
         return {
             id: item.id,
-            image: item.images[0].url,
             name: item.name,
             total: item.tracks.total
         }
     });
-
-    return list;
 }
 
 const getPlayListTracks = async function (token, id) {
@@ -150,13 +144,35 @@ const getPlayListTracks = async function (token, id) {
     return data.tracks.items;
 }
 
+const addPlayList = async function (token, userId, name) {
+    const url = `${process.env.API_BASE_URL}/users/${userId}/playlists`;
+    const body = {
+        name: name,
+        description: "test",
+        public: false
+    };
+    const config = {
+        method: "POST",
+        url: url,
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+        data: body,
+    };
+    const { data } = await axiosRequest(config);
+    if (data.error) return;
+}
+
 const browse = {
     getNewRelease,
     getFeaturedPlayList,
     getTopPlayList,
     getTopPlayListId,
     getUserPlayList,
-    getPlayListTracks
+    getPlayListTracks,
+
+    addPlayList
 };
 
 export default browse;

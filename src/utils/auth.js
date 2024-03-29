@@ -9,7 +9,7 @@ const login = function () {
     const id = process.env.CLIENT_ID;
     const type = "code";
     const redirect = process.env.SITE_DOMAIN;
-    const scopes = "user-read-private user-read-email";
+    const scopes = "user-read-private user-read-email playlist-modify-public playlist-modify-private playlist-read-private";
 
     const query = `client_id=${id}&response_type=${type}&redirect_uri=${redirect}&scope=${scopes}`;
 

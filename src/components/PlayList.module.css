@@ -1,4 +1,6 @@
+
 .playlist {
+  @apply mb-3
 }
 
 .header {
@@ -33,20 +35,24 @@
   @apply text-white-500
 }
 
+.list {
+  @apply max-h-[40rem] overflow-y-scroll
+}
+
 .body {
-  @apply relative h-16 flex justify-between items-center py-2 px-4 border-b border-b-primary-500 text-sm
+  @apply relative h-16 flex justify-between items-center py-2 px-4 border-b border-b-primary-500 text-sm cursor-pointer
 }
 
 .body > small {
   @apply text-white-500 mr-3
 }
 
-.close {
-  @apply absolute text-xs top-2 right-2 text-white-500
+.body:hover {
+  @apply bg-primary-300
 }
 
-.active {
-  @apply bg-primary-300
+.close {
+  @apply absolute text-xs top-2 right-2 text-white-500
 }
 
 .arrow-rotate {
@@ -54,6 +60,36 @@
 }
 
 .image {
+  display: block;
   width: 49px;
   height: 49px;
+  position: relative;
+  overflow: hidden;
+}
+
+.image:hover::before {
+  content: "";
+  background: rgba(0, 0, 0, 0.5);
+  height: 100%;
+  width: 100%;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.image:hover::after {
+  content: "";
+  display: block;
+  width: 50%;
+  height: 50%;
+  background: url("/src/assets/svg/play.svg") no-repeat;
+  background-size: 8px;
+  background-position: 8px 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid #FFFFFF;
+  border-radius: 50%;
 }

@@ -1,0 +1,3 @@
+.input {
+    @apply text-sm w-full rounded-lg text-white bg-white-100 px-4 py-2 border outline-none;
+}

@@ -36,7 +36,7 @@ const tokenRefresh = async function () {
 
 export const axiosRequest = async function (config) {
     const res = await axios(config);
-    switch (res.status) {
+    switch (res.error?.status) {
         case 401:
             tokenRefresh();
             break;
