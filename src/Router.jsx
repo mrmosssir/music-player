@@ -1,7 +1,8 @@
 import { Routes, Route } from "react-router-dom"
+import { Suspense, lazy } from "react";
 
-import Main from "@/views/Main";
-import Top from "@/views/Top";
+const Main = lazy(() => import("@/views/Main"));
+const Top = lazy(() => import("@/views/Top"));
 
 const Router = function () {
   const prefix = "/music-player"
@@ -10,9 +11,11 @@ const Router = function () {
     { name: "top", path: "top", component: <Top /> },
   ]
   return (
-    <Routes>
-      { routes.map(item => <Route path={ `${prefix}/${item.path}` } element={ item.component } key={ item.name }></Route>) }
-    </Routes>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Routes>
+        { routes.map(item => <Route path={ `${prefix}/${item.path}` } element={ item.component } key={ item.name }></Route>) }
+      </Routes>
+    </Suspense>
   )
 }
 

@@ -29,8 +29,8 @@ const tokenRefresh = async function () {
 
     if (data.error) return false;
 
-    cookie.set("token", tokenData.access_token, tokenData.expires_in);
-    localStorage.setItem("refresh_token", tokenData.refresh_token);
+    cookie.set("token", data.access_token, data.expires_in);
+    localStorage.setItem("refresh_token", data.refresh_token);
     location.href = "/music-player/";
 }
 

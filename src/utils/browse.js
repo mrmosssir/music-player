@@ -3,6 +3,15 @@ import qs from "qs";
 import { adminToken } from "@/utils/auth";
 import { axiosRequest } from "@/utils/base";
 
+const getImage = (images) => {
+    if (!images || !images.length) return "";
+    // Spotify usually returns images sorted by size (largest first), but we can sort to be sure
+    const largest = images.reduce((prev, current) => {
+        return (prev.width * prev.height) > (current.width * current.height) ? prev : current;
+    });
+    return largest.url ?? "";
+};
+
 const getNewRelease = async function (token, country) {
     let url = `${process.env.API_BASE_URL}/browse/new-releases`;
     const config = {
@@ -16,10 +25,7 @@ const getNewRelease = async function (token, country) {
     const { data } = await axiosRequest(config);
     if (data.error) return false;
     return data.albums.items.map((item) => {
-        let image = "";
-        if (!item.images) image = "";
-        else if (item.images.length > 1) image = item.images[1].url ?? "";
-        else if (item.images.length > 0) image = item.images[0].url ?? "";
+        const image = getImage(item.images);
         return {
             id: item.id,
             type: item.album_type,
@@ -31,10 +37,16 @@ const getNewRelease = async function (token, country) {
 };
 
 const getFeaturedPlayList = async function (token, country) {
-    const url = `${process.env.API_BASE_URL}/browse/featured-playlists`;
+    // Use Search API as a fallback for deprecated featured-playlists endpoint
+    const url = `${process.env.API_BASE_URL}/search`;
     const config = {
         method: "GET",
-        url: `${url}?${qs.stringify({ country: country, limit: 8 })}`,
+        url: `${url}?${qs.stringify({ 
+            q: "featured", 
+            type: "playlist", 
+            limit: 8, 
+            market: country 
+        })}`,
         headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/x-www-form-urlencoded",
@@ -43,14 +55,11 @@ const getFeaturedPlayList = async function (token, country) {
     try {
         const { data } = await axiosRequest(config);
         if (data.error) return false;
-        return data.playlists.items.map((item) => {
-            let image = "";
-            if (!item.images) image = "";
-            else if (item.images.length > 1) image = item.images[1].url ?? "";
-            else if (item.images.length > 0) image = item.images[0].url ?? "";
+        return data.playlists.items.filter(item => !!item).map((item) => {
+            const image = getImage(item.images);
             return {
                 id: item.id,
-                type: item.album_type,
+                type: item.type,
                 name: item.name,
                 artists: item.owner.display_name,
                 image,
@@ -58,10 +67,12 @@ const getFeaturedPlayList = async function (token, country) {
             };
         });
     } catch (error) {
-        if (error.response.status === 401) {
+        if (error.response && error.response.status === 401) {
             const admin = await adminToken();
             return { token: admin, status: 401 };
         }
+        console.error("Error fetching featured playlists:", error);
+        return [];
     }
 };
 
