@@ -1,3 +1,4 @@
+import { type RefObject } from "react";
 import { createSlice } from "@reduxjs/toolkit";
 
 export const DisplaySlice = createSlice({
@@ -6,7 +7,7 @@ export const DisplaySlice = createSlice({
         searchDisplay: false as boolean,
         maskDisplay: false as boolean,
         previewListCols: 7 as number,
-        mainRef: null as HTMLElement | null
+        mainRef: null as RefObject<HTMLDivElement | null> | null
     },
     reducers: {
         setSearchDisplay: (state, action) => {

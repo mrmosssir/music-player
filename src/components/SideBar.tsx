@@ -7,18 +7,19 @@ import add from "@/assets/svg/add.svg";
 import arrow from "@/assets/svg/arrow.svg";
 import musicList from "@/assets/svg/music-list.svg";
 
+import { type RootState } from "@/store";
 import { setMaskDisplay, setMainRef, setPreviewListCols } from "@/store/Display.model";
 
 const SideBar = function () {
 
     const dispatch = useDispatch();
-    const mainRef = useSelector(state => state.display.mainRef);
+    const mainRef = useSelector((state: RootState) => state.display.mainRef);
 
-    const [active, setActive] = useState(false);
-    const ref = useRef(null);
+    const [active, setActive] = useState<boolean>(false);
+    const ref = useRef<HTMLDivElement>(null);
 
     const handleWidth = function (status: boolean, width?: number) {
-        if (!mainRef.current) return;
+        if (!mainRef?.current) return;
         const wrapWidth = mainRef.current.offsetWidth;
         const innerWidth = window.innerWidth;
 
@@ -53,7 +54,7 @@ const SideBar = function () {
 
     const open = function () {
         setActive(true);
-        handleWidth(true, ref.current.offsetWidth);
+        handleWidth(true, ref.current?.offsetWidth);
     };
 
     return (
