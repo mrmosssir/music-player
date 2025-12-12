@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import style from "@/components/SearchBar.module.css";
 
-import searchAlbum from "@/utils/search";
+import { searchAlbum } from "@/utils/search";
 
 import Bagde from "@/components/Badge";
 import Logo from "@/components/Logo";

@@ -7,7 +7,7 @@ const MusicList = function (props) {
     <ul className={ style.musiclist }>
       {
         props.list.map((item, index) => {
-          return <li key={ item.key } className={ style.music }>
+          return <li key={ index } className={ style.music }>
             <span className={ style.number }>{ index + 1 }</span>
             <div className={ style.image }>
               <img width="80" height="80" src={ item.image } alt={ item.name } />

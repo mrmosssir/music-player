@@ -1,5 +1,3 @@
-import style from "@/layouts/Layout.module.css";
-
 import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 
@@ -20,9 +18,9 @@ const Layout = function ({ children }) {
   }, []);
 
   return (
-    <div ref={ ref } className={ style.layout }>
+    <div ref={ ref } className="bg-primary-100 flex md:min-h-screen md:h-screen">
       <SearchBar />
-        <div className={ style.children }>
+        <div className="w-full transition-all duration-500 overflow-scroll">
           { children }
         </div>
       <SideBar />

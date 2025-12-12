@@ -1,8 +1,6 @@
 import { useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import style from "@/components/SideBar.module.css";
-
 import PlayList from "@/components/PlayList";
 
 import add from "@/assets/svg/add.svg";
@@ -11,7 +9,7 @@ import musicList from "@/assets/svg/music-list.svg";
 
 import { setMaskDisplay, setMainRef, setPreviewListCols } from "@/store/Display.model";
 
-const SideBar = function (props) {
+const SideBar = function () {
 
     const dispatch = useDispatch();
     const mainRef = useSelector(state => state.display.mainRef);
@@ -19,7 +17,7 @@ const SideBar = function (props) {
     const [active, setActive] = useState(false);
     const ref = useRef(null);
 
-    const handleWidth = function (status, width) {
+    const handleWidth = function (status: boolean, width?: number) {
         if (!mainRef.current) return;
         const wrapWidth = mainRef.current.offsetWidth;
         const innerWidth = window.innerWidth;
@@ -31,11 +29,10 @@ const SideBar = function (props) {
             xl: 1280,
             "2xl": 1536,
         };
-        const sideBarDisabled =
-            innerWidth > device.lg && innerWidth <= device.xl;
+        const sideBarDisabled = innerWidth > device.lg && innerWidth <= device.xl;
         const previewListDisabled = innerWidth < device.lg;
         if (status && !sideBarDisabled) {
-            mainRef.current.style.width = `${wrapWidth - width}px`;
+            mainRef.current.style.width = `${wrapWidth - (width || 0)}px`;
             dispatch(setMainRef(mainRef));
             if (!previewListDisabled) dispatch(setPreviewListCols(5));
         } else {
@@ -62,13 +59,13 @@ const SideBar = function (props) {
     return (
         <div
             ref={ref}
-            className={`${style.sidebar} ${active ? style.active : ""}`}>
-            <div className={style.header}>
+            className={`absolute bg-primary-200 min-w-[350px] w-1/5 h-screen top-0 right-0 translate-x-full transition duration-500 z-20 ${active && "translate-x-0"}`}>
+            <div className="px-8 py-6">
                 <button onClick={close}>
                     <img width="8" height="8" src={arrow} alt="關閉" />
                 </button>
-                <div className={style.nav}>
-                    <p>我的播放清單</p>
+                <div className="flex justify-between items-center mt-2">
+                    <p className="text-white">我的播放清單</p>
                     <button>
                         <img width="18" height="18" src={add} alt="新增" />
                     </button>
@@ -77,9 +74,9 @@ const SideBar = function (props) {
             <PlayList />
             <button
                 disabled={active}
-                className={`${style.open} ${active ? "" : style.active}`}
+                className={`hidden absolute top-8 left-0 w-12 h-12 bg-primary-100 border border-white rounded-l-lg translate-x-[-100%] opacity-0 duration-300 lg:block ${active && "opacity-100 delay-200"}`}
                 onClick={open}>
-                <img src={musicList} alt="我的播放清單" />
+                <img src={musicList} alt="我的播放清單" className="mx-auto" />
             </button>
         </div>
     );

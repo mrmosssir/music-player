@@ -3,10 +3,10 @@ import { createSlice } from "@reduxjs/toolkit";
 export const DisplaySlice = createSlice({
     name: "Display",
     initialState: {
-        searchDisplay: false,
-        maskDisplay: false,
-        previewListCols: 7,
-        mainRef: null
+        searchDisplay: false as boolean,
+        maskDisplay: false as boolean,
+        previewListCols: 7 as number,
+        mainRef: null as HTMLElement | null
     },
     reducers: {
         setSearchDisplay: (state, action) => {

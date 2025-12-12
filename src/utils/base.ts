@@ -1,20 +1,21 @@
-import axios from "axios";
-import qs from "qs";
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 
 import cookie from "@/utils/cookie";
 import { logout } from "@/utils/auth";
 
+export type { AxiosResponse };
+
 const tokenRefresh = async function () {
     const refreshToken = localStorage.getItem("refresh_token");
     if (!refreshToken) {
-        logout();
+        await logout();
         return;
     }
-    const url = `${process.env.AUTH_BASE_URL}/api/token`;
+    const url = `${import.meta.env.VITE_AUTH_BASE_URL}/api/token`;
     const body = {
         grant_type: "refresh_token",
         refresh_token: refreshToken,
-        client_id: process.env.CLIENT_ID
+        client_id: import.meta.env.VITE_CLIENT_ID
     };
     const config = {
         method: "POST",
@@ -22,7 +23,7 @@ const tokenRefresh = async function () {
         headers: {
             "Content-Type": "application/x-www-form-urlencoded",
         },
-        data: qs.stringify(body),
+        data: new URLSearchParams(body).toString(),
     };
 
     const { data } = await axios(config);
@@ -34,13 +35,12 @@ const tokenRefresh = async function () {
     location.href = "/music-player/";
 }
 
-export const axiosRequest = async function (config) {
-    const res = await axios(config);
+export const axiosRequest = async (config: AxiosRequestConfig): Promise<AxiosResponse> => {
+    const res: AxiosResponse = await axios(config);
     switch (res.status) {
         case 401:
-            tokenRefresh();
+            await tokenRefresh();
             break;
-        default:
-            return res;
     }
+    return res
 }

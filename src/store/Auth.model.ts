@@ -1,10 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+import type { UserInfo } from "@/utils/user";
+
 export const AuthSlice = createSlice({
     name: "Auth",
     initialState: {
-        token: "",
-        user: {}
+        token: "" as string,
+        user: {} as UserInfo,
     },
     reducers: {
         setToken: (state, action) => {
