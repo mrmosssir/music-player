@@ -10,77 +10,78 @@ import musicList from "@/assets/svg/music-list.svg";
 import { type RootState } from "@/store";
 import { setMaskDisplay, setMainRef, setPreviewListCols } from "@/store/Display.model";
 
-const SideBar = function () {
+const SideBar = () => {
+  const dispatch = useDispatch();
+  const mainRef = useSelector((state: RootState) => state.display.mainRef);
 
-    const dispatch = useDispatch();
-    const mainRef = useSelector((state: RootState) => state.display.mainRef);
+  const [active, setActive] = useState<boolean>(false);
+  const ref = useRef<HTMLDivElement>(null);
 
-    const [active, setActive] = useState<boolean>(false);
-    const ref = useRef<HTMLDivElement>(null);
+  const handleWidth = (status: boolean, width?: number) => {
+    if (!mainRef?.current) return;
+    const wrapWidth = mainRef.current.offsetWidth;
+    const innerWidth = window.innerWidth;
 
-    const handleWidth = function (status: boolean, width?: number) {
-        if (!mainRef?.current) return;
-        const wrapWidth = mainRef.current.offsetWidth;
-        const innerWidth = window.innerWidth;
-
-        const device = {
-            sm: 640,
-            md: 768,
-            lg: 1024,
-            xl: 1280,
-            "2xl": 1536,
-        };
-        const sideBarDisabled = innerWidth > device.lg && innerWidth <= device.xl;
-        const previewListDisabled = innerWidth < device.lg;
-        if (status && !sideBarDisabled) {
-            mainRef.current.style.width = `${wrapWidth - (width || 0)}px`;
-            dispatch(setMainRef(mainRef));
-            if (!previewListDisabled) dispatch(setPreviewListCols(5));
-        } else {
-            if (sideBarDisabled) {
-                dispatch(setMaskDisplay(status ? true : false ));
-            }
-            
-            mainRef.current.style.width = "100%";
-            dispatch(setMainRef(mainRef));
-            dispatch(setPreviewListCols(7));
-        }
+    const device = {
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+      "2xl": 1536,
     };
+    const sideBarDisabled = innerWidth > device.lg && innerWidth <= device.xl;
+    const previewListDisabled = innerWidth < device.lg;
+    if (status && !sideBarDisabled) {
+      mainRef.current.style.width = `${wrapWidth - (width || 0)}px`;
+      dispatch(setMainRef(mainRef));
+      if (!previewListDisabled) dispatch(setPreviewListCols(5));
+    } else {
+      if (sideBarDisabled) {
+        dispatch(setMaskDisplay(status ? true : false));
+      }
 
-    const close = function () {
-        setActive(false);
-        handleWidth(false);
-    };
+      mainRef.current.style.width = "100%";
+      dispatch(setMainRef(mainRef));
+      dispatch(setPreviewListCols(7));
+    }
+  };
 
-    const open = function () {
-        setActive(true);
-        handleWidth(true, ref.current?.offsetWidth);
-    };
+  const close = () => {
+    setActive(false);
+    handleWidth(false);
+  };
 
-    return (
-        <div
-            ref={ref}
-            className={`absolute bg-primary-200 min-w-[350px] w-1/5 h-screen top-0 right-0 translate-x-full transition duration-500 z-20 ${active && "translate-x-0"}`}>
-            <div className="px-8 py-6">
-                <button onClick={close}>
-                    <img width="8" height="8" src={arrow} alt="關閉" />
-                </button>
-                <div className="flex justify-between items-center mt-2">
-                    <p className="text-white">我的播放清單</p>
-                    <button>
-                        <img width="18" height="18" src={add} alt="新增" />
-                    </button>
-                </div>
-            </div>
-            <PlayList />
-            <button
-                disabled={active}
-                className={`hidden absolute top-8 left-0 w-12 h-12 bg-primary-100 border border-white rounded-l-lg translate-x-[-100%] opacity-0 duration-300 lg:block ${active && "opacity-100 delay-200"}`}
-                onClick={open}>
-                <img src={musicList} alt="我的播放清單" className="mx-auto" />
-            </button>
+  const open = () => {
+    setActive(true);
+    handleWidth(true, ref.current?.offsetWidth);
+  };
+
+  return (
+    <div
+      ref={ref}
+      className={`absolute bg-primary-200 min-w-87.5 w-1/5 h-screen top-0 right-0 translate-x-full transition duration-500 z-20 ${active && "translate-x-0"}`}
+    >
+      <div className="px-8 py-6">
+        <button onClick={close}>
+          <img width="8" height="8" src={arrow} alt="關閉" />
+        </button>
+        <div className="flex justify-between items-center mt-2">
+          <p className="text-white">我的播放清單</p>
+          <button>
+            <img width="18" height="18" src={add} alt="新增" />
+          </button>
         </div>
-    );
+      </div>
+      <PlayList />
+      <button
+        disabled={active}
+        className={`hidden absolute top-8 left-0 w-12 h-12 bg-primary-100 border border-white rounded-l-lg -translate-x-full opacity-0 duration-300 lg:block ${active && "opacity-100 delay-200"}`}
+        onClick={open}
+      >
+        <img src={musicList} alt="我的播放清單" className="mx-auto" />
+      </button>
+    </div>
+  );
 };
 
 export default SideBar;

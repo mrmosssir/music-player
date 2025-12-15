@@ -1,12 +1,11 @@
-import ReactDOM from "react-dom/client"
+import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-import App from "./App"
-import "@/style.css"
+import App from "./App";
+import "@/style.css";
 
-const root = document.getElementById('root') as HTMLElement;
+const root = document.getElementById("root") as HTMLElement;
 
 ReactDOM.createRoot(root).render(
-
   // Run on StrictMode
   // <React.StrictMode>
   //   <App />
@@ -15,5 +14,5 @@ ReactDOM.createRoot(root).render(
   // Run without StrictMode
   <BrowserRouter>
     <App />
-  </BrowserRouter>
-)
+  </BrowserRouter>,
+);
