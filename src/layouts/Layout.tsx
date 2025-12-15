@@ -7,7 +7,7 @@ import Mask from "@/components/Mask";
 
 import { setMainRef } from "@/store/Display.model";
 
-const Layout = function ({ children }) {
+const Layout = ({ children }: { children: React.ReactNode }) => {
 
   const dispatch = useDispatch();
 

@@ -1,23 +1,22 @@
-import style from "@/components/ProfileMenu.module.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
 import { logout } from "@/utils/auth";
 
-const ProfileMenu = function () {
+const ProfileMenu = () => {
 
-  const handleLogout= function (e) {
-    e.stopPropagation();
+  const handleLogout= (event: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
+    event.stopPropagation();
     logout();
   }
 
-  const [ menu, setMenu ] = useState([
+  const [ menu ] = useState([
     { name: "個人頁面", link: "" },
     { name: "登出", method: handleLogout }
   ]);
 
   return (
-    <div className={ style.menu }>
+    <div className="block absolute bottom-[-3.5rem] right-0 z-20 text-right">
       <ul>
         {
           menu.map((item) => {

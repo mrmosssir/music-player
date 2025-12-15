@@ -1,7 +1,8 @@
 import { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { type RootState } from "@/store";
 
-import browse from "@/utils/browse";
+import { getNewRelease, getFeaturedPlayList, type MusicItem } from "@/utils/browse";
 import cookie from "@/utils/cookie";
 
 import AuthGroup from "@/components/AuthGroup";
@@ -10,29 +11,22 @@ import PreviewList from "@/components/PreviewList";
 
 import { setMainRef } from "@/store/Display.model";
 
-const Main = function (props) {
+const Main = () => {
 
     const dispatch = useDispatch();
-    const user = useSelector((state) => state.auth.user);
-    const token = useSelector((state) => state.auth.token);
+    const user = useSelector((state: RootState) => state.auth.user);
+    const token = useSelector((state: RootState) => state.auth.token);
 
-    const ref = useRef(null);
+    const ref = useRef<HTMLDivElement>(null);
 
-    const [newList, setNewList] = useState([]);
-    const [featuredList, setFeatureList] = useState([]);
+    const [newList, setNewList] = useState<MusicItem[]>([]);
+    const [featuredList, setFeatureList] = useState<MusicItem[]>([]);
 
     useEffect(() => {
         if (!token) return;
         if (cookie.get("login") && !user) return;
-        browse
-            .getNewRelease(token, user?.country)
-            .then((response) => setNewList(response));
-        browse
-            .getFeaturedPlayList(
-                token,
-                user?.country
-            )
-            .then((response) => setFeatureList(response));
+        getNewRelease(token, user?.country).then((response) => setNewList(response));
+        getFeaturedPlayList(token, user?.country).then((response) => setFeatureList(response));
     }, [token, user]);
 
     useEffect(() => {
@@ -40,12 +34,12 @@ const Main = function (props) {
     }, [ref]);
 
     return (
-        <div className="container">
+        <div className="h-full w-4/5 mx-auto py-10">
             <AuthGroup title="每日精選" subTitle="Daily Featured" />
             <Banner
                 image={newList[0]?.image}
                 name={newList[0]?.name}
-                artist={newList[0]?.artists}
+                artist={newList[0]?.artist}
             />
             <PreviewList
                 title="最新專輯"

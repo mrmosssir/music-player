@@ -5,7 +5,7 @@ import Layout from "@/layouts/Layout";
 
 import store from "@/store";
 
-function App() {
+const App = () => {
     return (
         <Provider store={store}>
             <Layout>

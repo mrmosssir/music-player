@@ -8,7 +8,7 @@ export type Image = {
 
 export type MusicItem = {
     name: string;
-    artists: string;
+    artist: string;
     image: string;
 }
 
@@ -35,7 +35,7 @@ const getImage = (images: Image[]) => {
     return largest.url ?? "";
 };
 
-export const getNewRelease = async (token: string, country: string) => {
+export const getNewRelease = async (token: string, country: string): Promise<MusicItem[]> => {
     const url = `${import.meta.env.VITE_API_BASE_URL}/browse/new-releases`;
 
     const config = {
@@ -53,7 +53,7 @@ export const getNewRelease = async (token: string, country: string) => {
         return data.albums.items.map((item: any) => {
             return {
                 name: item.name,
-                artists: item.artists[0].name,
+                artist: item.artists[0].name,
                 image: getImage(item.images),
             };
         });
@@ -81,7 +81,7 @@ export const getFeaturedPlayList = async (token: string, country: string): Promi
         return data.playlists.items.filter((item: any) => !!item).map((item: any) => {
             return {
                 name: item.name,
-                artists: item.owner.display_name,
+                artist: item.owner.display_name,
                 image: getImage(item.images),
             };
         });
