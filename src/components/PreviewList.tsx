@@ -69,7 +69,7 @@ const PreviewList = function (props: PreviewListProps) {
                             <li className="inline-block mr-4 lg:mr-0" style={{ width: size }} key={index}>
                                 <img src={item.image} alt={item.name} className="w-full h-full object-cover rounded" />
                                 <p className="text-sm text-white truncate mt-2 whitespace-nowrap">{item.name}</p>
-                                <small className="text-xs text-white-500 truncate mt-2 whitespace-nowrap">{item.artist}</small>
+                                <small className="text-xs text-white/50 truncate mt-2 whitespace-nowrap">{item.artist}</small>
                             </li>
                         );
                     })

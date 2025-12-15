@@ -71,12 +71,12 @@ const Playlist = function () {
                                         <img src={track.image} alt="測試" className="w-[49px] h-[49px]" />
                                         <div className="w-1/2">
                                             <p className="text-white truncate">{track.name}</p>
-                                            <small className="text-white-500">{track.artist}</small>
+                                            <small className="text-white/50">{track.artist}</small>
                                         </div>
-                                        <small className="text-white-500 mr-3">
+                                        <small className="text-white/50 mr-3">
                                             { `${getMinute(track.duration)}:${getSecond(track.duration)}` }
                                         </small>
-                                        <button className="absolute text-xs top-2 right-2 text-white-500">Ｘ</button>
+                                        <button className="absolute text-xs top-2 right-2 text-white/50">Ｘ</button>
                                     </div>
                                 );
                             }

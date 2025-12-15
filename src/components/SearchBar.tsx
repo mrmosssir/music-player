@@ -40,7 +40,7 @@ const SearchBar = (props: SearchBarProps) => {
                 </button>
                 <input
                     type="text"
-                    className="text-sm w-full rounded-full text-white bg-white-100 px-5 py-2 border"
+                    className="text-sm w-full rounded-full text-white bg-white/10 px-5 py-2 border"
                     placeholder="搜尋曲名、歌手或專輯"
                     onKeyUp={handleKeyUp}
                     ref={ref}

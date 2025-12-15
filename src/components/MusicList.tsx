@@ -20,13 +20,13 @@ const MusicList = function (props: MusicListProps) {
               <span className="w-[10%] text-4xl text-white font-bold">{ index + 1 }</span>
               <div className="relative w-[80px] h-[80px] group">
                 <img width="80" height="80" src={ item.image } alt={ item.name } />
-                <button className="absolute top-0 left-0 h-full w-full bg-black-500 text-center opacity-0 transition duration-500 group-hover:opacity-100">
+                <button className="absolute top-0 left-0 h-full w-full bg-black/50 text-center opacity-0 transition duration-500 group-hover:opacity-100">
                   <img width="30" height="30" src={ player } alt="播放" className="inline" />
                 </button>
               </div>
               <div className="w-[70%]">
                 <h3 className="text-lg text-white">{ item.name }</h3>
-                <p className="text-sm text-white-500 font-light">{ item.artist }</p>
+                <p className="text-sm text-white/50 font-light">{ item.artist }</p>
               </div>
             </li>
           )})

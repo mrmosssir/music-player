@@ -1,4 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@600&family=Noto+Sans+TC:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Righteous&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --color-primary-100: #212235;
+  --color-primary-200: #272A3D;
+  --color-primary-300: #484764;
+  --color-primary-400: #7600AE;
+  --color-primary-500: #CDBBFF33;
+
+  --color-secondary: #FF0099;
+  --color-secondary-100: #FF5E67;
+}
 
 *, body * {
   /* @apply font-regular; */
