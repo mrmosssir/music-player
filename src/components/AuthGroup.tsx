@@ -25,7 +25,10 @@ const AuthGroup = (props: AuthGroupProps) => {
 
   const loginBtn = () => {
     return (
-      <button className="flex items-center bg-transparent border border-white/50 px-6" onClick={() => login()}>
+      <button
+        className="bg-transparent border border-white/50 px-6 rounded-full text-white h-10 min-w-36 text-center cursor-pointer"
+        onClick={() => login()}
+      >
         登入
       </button>
     );
@@ -46,8 +49,10 @@ const AuthGroup = (props: AuthGroupProps) => {
     <div className="flex justify-center items-center relative lg:justify-between">
       <Logo type="mobile" />
       <Theme main={props.title} sub={props.subTitle} icon={props.icon} />
-      <div className="hidden items-center lg:flex">
-        <button className="text-white h-10 rounded-full tracking-[0.05rem]">Music Premium</button>
+      <div className="hidden items-center gap-x-4 lg:flex">
+        <button className="text-white h-10 min-w-36 rounded-full tracking-[0.05rem] bg-linear-to-r from-secondary-100 to-primary-400 px-6">
+          Music Premium
+        </button>
         {user?.name ? profileBtn() : loginBtn()}
       </div>
       <div className="flex items-center absolute top-0 right-0 lg:hidden">
