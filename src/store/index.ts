@@ -1,17 +1,17 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import AuthReducer from "./Auth.model";
-import DisplayReducer from "./Display.model";
+import AuthReducer from "./auth";
+import CommonReducer from "./common";
 
 export type RootState = {
   auth: ReturnType<typeof AuthReducer>;
-  display: ReturnType<typeof DisplayReducer>;
+  common: ReturnType<typeof CommonReducer>;
 };
 
 export default configureStore({
   reducer: {
     auth: AuthReducer,
-    display: DisplayReducer,
+    common: CommonReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

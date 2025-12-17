@@ -1,84 +1,36 @@
-import { useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { type RootState } from "@/store";
+import { setEnabled } from "@/store/common";
 
 import PlayList from "@/components/PlayList";
-
-import add from "@/assets/svg/add.svg";
-import arrow from "@/assets/svg/arrow.svg";
-import musicList from "@/assets/svg/music-list.svg";
-
-import { type RootState } from "@/store";
-import { setMaskDisplay, setMainRef, setPreviewListCols } from "@/store/Display.model";
+import Icon from "@/components/Icon";
 
 const SideBar = () => {
   const dispatch = useDispatch();
-  const mainRef = useSelector((state: RootState) => state.display.mainRef);
-
-  const [active, setActive] = useState<boolean>(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  const handleWidth = (status: boolean, width?: number) => {
-    if (!mainRef?.current) return;
-    const wrapWidth = mainRef.current.offsetWidth;
-    const innerWidth = window.innerWidth;
-
-    const device = {
-      sm: 640,
-      md: 768,
-      lg: 1024,
-      xl: 1280,
-      "2xl": 1536,
-    };
-    const sideBarDisabled = innerWidth > device.lg && innerWidth <= device.xl;
-    const previewListDisabled = innerWidth < device.lg;
-    if (status && !sideBarDisabled) {
-      mainRef.current.style.width = `${wrapWidth - (width || 0)}px`;
-      dispatch(setMainRef(mainRef));
-      if (!previewListDisabled) dispatch(setPreviewListCols(5));
-    } else {
-      if (sideBarDisabled) {
-        dispatch(setMaskDisplay(status ? true : false));
-      }
-
-      mainRef.current.style.width = "100%";
-      dispatch(setMainRef(mainRef));
-      dispatch(setPreviewListCols(7));
-    }
-  };
-
-  const close = () => {
-    setActive(false);
-    handleWidth(false);
-  };
-
-  const open = () => {
-    setActive(true);
-    handleWidth(true, ref.current?.offsetWidth);
-  };
+  const enabled = useSelector((state: RootState) => state.common.enabled);
 
   return (
     <div
-      ref={ref}
-      className={`absolute bg-primary-200 min-w-87.5 w-1/5 h-screen top-0 right-0 translate-x-full transition duration-500 z-20 ${active && "translate-x-0"}`}
+      className={`absolute bg-primary-200 min-w-87.5 w-1/5 h-screen top-0 right-0 transition duration-500 z-20 ${enabled.playlist ? "translate-x-0" : "translate-x-full"}`}
     >
-      <div className="px-8 py-6">
-        <button onClick={close}>
-          <img width="8" height="8" src={arrow} alt="關閉" />
+      <div className="flex items-center gap-x-4 px-8 py-6">
+        <button onClick={() => dispatch(setEnabled("playlist", false))} className="rotate-180 cursor-pointer">
+          <Icon icon="arrow" width="8" height="8" alt="關閉" />
         </button>
-        <div className="flex justify-between items-center mt-2">
-          <p className="text-white">我的播放清單</p>
-          <button>
-            <img width="18" height="18" src={add} alt="新增" />
-          </button>
-        </div>
+        <p className="flex-1 text-white">我的播放清單</p>
+        <button>
+          <Icon icon="add" width="18" height="18" alt="新增" />
+        </button>
       </div>
+
       <PlayList />
+
       <button
-        disabled={active}
-        className={`hidden absolute top-8 left-0 w-12 h-12 bg-primary-100 border border-white rounded-l-lg -translate-x-full opacity-0 duration-300 lg:block ${active && "opacity-100 delay-200"}`}
-        onClick={open}
+        disabled={enabled.playlist}
+        className={`hidden absolute top-8 left-0 w-12 h-12 bg-primary-100 border border-r-0 border-white/50 rounded-l-lg -translate-x-full duration-300 cursor-pointer lg:block ${enabled.playlist ? "opacity-0" : "opacity-100 delay-200"}`}
+        onClick={() => dispatch(setEnabled("playlist", true))}
       >
-        <img src={musicList} alt="我的播放清單" className="mx-auto" />
+        <Icon icon="music-list" alt="我的播放清單" className="mx-auto" />
       </button>
     </div>
   );

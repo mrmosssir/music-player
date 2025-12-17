@@ -1,17 +1,19 @@
 import "@/assets/fonts/agency-fb.css";
 
-import logo from "@/assets/svg/logo.svg";
+import Icon from "@/components/Icon";
 
 export type LogoProps = {
   type: "web" | "mobile";
+  className?: string;
 };
 
 const Logo = (props: LogoProps) => {
-  const titleClass = props.type === "web" ? "hidden justify-center items-end lg:flex" : "flex items-end absolute top-0 left-0 lg:hidden";
+  const titleClass = props.type === "web" ? "hidden justify-center items-end lg:flex" : "flex items-end lg:hidden";
+  const finalClass = props.className ? `${titleClass} ${props.className}` : titleClass;
 
   return (
-    <h1 className={titleClass}>
-      <img src={logo} alt="logo" className="w-6.5 h-6.5 block mr-1" />
+    <h1 className={finalClass}>
+      <Icon icon="logo" className="w-6.5 h-6.5 block mr-1" alt="logo" />
       <p className="hidden sm:block text-white text-2xl leading-5 font-['Agency FB', sans-serif]">Immerse</p>
     </h1>
   );

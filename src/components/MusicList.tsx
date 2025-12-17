@@ -1,4 +1,4 @@
-import player from "@/assets/svg/player.svg";
+import Icon from "@/components/Icon";
 
 type MusicItem = {
   image: string;
@@ -20,7 +20,7 @@ const MusicList = (props: MusicListProps) => {
             <div className="relative w-20 h-20 group">
               <img width="80" height="80" src={item.image} alt={item.name} />
               <button className="absolute top-0 left-0 h-full w-full bg-black/50 text-center opacity-0 transition duration-500 group-hover:opacity-100">
-                <img width="30" height="30" src={player} alt="播放" className="inline" />
+                <Icon icon="player" width={30} height={30} alt="播放" className="inline" />
               </button>
             </div>
             <div className="w-[70%]">

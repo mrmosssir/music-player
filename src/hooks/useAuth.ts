@@ -8,7 +8,7 @@ import { getUserInfo } from "@/utils/user";
 import cookie from "@/utils/cookie";
 
 import { RootState } from "@/store";
-import { setToken, setUser } from "@/store/Auth.model";
+import { setToken, setUser } from "@/store/auth";
 
 export const useAuth = () => {
   const dispatch = useDispatch();
@@ -20,7 +20,7 @@ export const useAuth = () => {
 
     // 如果有 token 則直接取 user 資料
     if (cookieToken) {
-      await dispatch(setToken(cookieToken));
+      dispatch(setToken(cookieToken));
 
       const userData = await getUserInfo(cookieToken);
       if (!userData) return;
