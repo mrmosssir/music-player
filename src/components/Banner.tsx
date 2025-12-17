@@ -1,4 +1,4 @@
-import play from "@/assets/svg/play.svg";
+import Icon from "@/components/Icon";
 
 export type BannerProps = {
   image: string;
@@ -21,7 +21,7 @@ const Banner = (props: BannerProps) => {
           <small className="block text-white/50 text-xs mt-1">{props.artist}</small>
         </div>
         <button className="w-9 h-9 rounded-full bg-linear-to-b from-secondary-100 to-primary-400 z-10">
-          <img width="10" height="10" src={play} alt="播放" className="block mx-auto" />
+          <Icon icon="play" width={10} height={10} alt="播放" className="block mx-auto" />
         </button>
       </div>
     </div>
