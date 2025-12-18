@@ -2,13 +2,13 @@ import { Link } from "react-router-dom";
 
 import { type MusicItem } from "@/utils/browse";
 
-export type PreviewListProps = {
+export type PreviewProps = {
   title: string;
   link: string;
   list: MusicItem[];
 };
 
-const PreviewList = (props: PreviewListProps) => {
+const Preview = (props: PreviewProps) => {
   return (
     <div className="mt-8 opacity-100 transition duration-300">
       <div className="flex justify-between items-center">
@@ -32,4 +32,4 @@ const PreviewList = (props: PreviewListProps) => {
   );
 };
 
-export default PreviewList;
+export default Preview;

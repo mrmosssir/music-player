@@ -8,7 +8,7 @@ export type { AxiosResponse };
 const tokenRefresh = async () => {
   const refreshToken = localStorage.getItem("refresh_token");
   if (!refreshToken) {
-    await logout();
+    logout();
     return;
   }
   const url = `${import.meta.env.VITE_AUTH_BASE_URL}/api/token`;

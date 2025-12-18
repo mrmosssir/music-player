@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { Suspense, lazy } from "react";
+import { lazy } from "react";
 
 const Main = lazy(() => import("@/views/Main.tsx"));
 const Top = lazy(() => import("@/views/Top.tsx"));
@@ -11,13 +11,11 @@ const Router = () => {
   ];
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <Routes>
-        {routes.map((item) => (
-          <Route path={`/music-player/${item.path}`} element={item.component} key={item.name}></Route>
-        ))}
-      </Routes>
-    </Suspense>
+    <Routes>
+      {routes.map((item) => (
+        <Route path={`/music-player/${item.path}`} element={item.component} key={item.name}></Route>
+      ))}
+    </Routes>
   );
 };
 
