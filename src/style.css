@@ -1,5 +1,12 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@600&family=Noto+Sans+TC:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Righteous&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Inter:wght@600&family=Noto+Sans+TC:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Righteous&display=swap"); */
 @import "tailwindcss";
+
+@font-face {
+  font-family: "Agency FB";
+  font-style: normal;
+  font-weight: 700;
+  src: url("@/assets/fonts/agency-fb.woff") format("woff");
+}
 
 @theme {
   --color-primary-100: #212235;
@@ -10,16 +17,19 @@
 
   --color-secondary: #ff0099;
   --color-secondary-100: #ff5e67;
+
+  --font-agency: "Agency FB", sans-serif;
+  --font-family: "Noto Sans TC", "Open Sans", sans-serif;
 }
 
-*,
-body * {
-  /* @apply font-regular; */
-
+* {
   /* Hide scrollbar for IE, Edge and Firefox */
   -ms-overflow-style: none;
   scrollbar-width: none;
-  font-family: "Noto Sans TC", "Open Sans", sans-serif;
+}
+
+body {
+  font-family: var(--font-family);
 }
 
 body::-webkit-scrollbar,

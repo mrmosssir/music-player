@@ -6,11 +6,11 @@ type MusicItem = {
   artist: string;
 };
 
-export type MusicListProps = {
+export type MusiclistProps = {
   list: MusicItem[];
 };
 
-const MusicList = (props: MusicListProps) => {
+const Musiclist = (props: MusiclistProps) => {
   return (
     <ul className="my-8">
       {props.list.map((item: MusicItem, index: number) => {
@@ -34,4 +34,4 @@ const MusicList = (props: MusicListProps) => {
   );
 };
 
-export default MusicList;
+export default Musiclist;

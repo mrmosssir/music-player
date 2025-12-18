@@ -20,7 +20,7 @@ export type MusicTrack = {
   image: string;
 };
 
-export type UserPlayListItem = {
+export type UserPlaylistItem = {
   id: string;
   image: string;
   name: string;
@@ -62,7 +62,7 @@ export const getNewRelease = async (token: string, country: string): Promise<Mus
   }
 };
 
-export const getFeaturedPlayList = async (token: string, country: string): Promise<MusicItem[]> => {
+export const getFeaturedPlaylist = async (token: string, country: string): Promise<MusicItem[]> => {
   const url = `${import.meta.env.VITE_API_BASE_URL}/search`;
 
   const config = {
@@ -90,7 +90,7 @@ export const getFeaturedPlayList = async (token: string, country: string): Promi
   }
 };
 
-export const getTopPlayListId = async (token: string, country: string): Promise<string> => {
+export const getTopPlaylistId = async (token: string, country: string): Promise<string> => {
   const url = `${import.meta.env.VITE_API_BASE_URL}/browse/categories/toplists/playlists`;
 
   const config = {
@@ -110,7 +110,7 @@ export const getTopPlayListId = async (token: string, country: string): Promise<
   }
 };
 
-export const getTopPlayList = async (token: string, id: string): Promise<MusicItem[]> => {
+export const getTopPlaylist = async (token: string, id: string): Promise<MusicItem[]> => {
   const url = `${import.meta.env.VITE_API_BASE_URL}/playlists/${id}`;
 
   const config = {
@@ -137,7 +137,7 @@ export const getTopPlayList = async (token: string, id: string): Promise<MusicIt
   }
 };
 
-export const getUserPlayList = async (token: string, userId: string): Promise<UserPlayListItem[]> => {
+export const getUserPlaylist = async (token: string, userId: string): Promise<UserPlaylistItem[]> => {
   const url = `${import.meta.env.VITE_API_BASE_URL}/users/${userId}/playlists`;
 
   const config = {
@@ -162,7 +162,7 @@ export const getUserPlayList = async (token: string, userId: string): Promise<Us
   }
 };
 
-export const getPlayListTracks = async (token: string, id: string): Promise<MusicTrack[]> => {
+export const getPlaylistTracks = async (token: string, id: string): Promise<MusicTrack[]> => {
   const url = `${import.meta.env.VITE_API_BASE_URL}/playlists/${id}`;
 
   const config = {

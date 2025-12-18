@@ -1,5 +1,3 @@
-import "@/assets/fonts/agency-fb.css";
-
 import Icon from "@/components/Icon";
 
 export type LogoProps = {
@@ -14,7 +12,7 @@ const Logo = (props: LogoProps) => {
   return (
     <h1 className={finalClass}>
       <Icon icon="logo" className="w-6.5 h-6.5 block mr-1" alt="logo" />
-      <p className="hidden sm:block text-white text-2xl leading-5 font-['Agency FB', sans-serif]">Immerse</p>
+      <p className="hidden sm:block text-white text-2xl leading-5 font-agency sans-serif">Immerse</p>
     </h1>
   );
 };
