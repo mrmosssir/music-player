@@ -27,6 +27,36 @@ export type UserPlaylistItem = {
   total: number;
 };
 
+type SpotifyArtist = {
+  name: string;
+};
+
+type SpotifyAlbum = {
+  name: string;
+  artists: SpotifyArtist[];
+  images: Image[];
+};
+
+type SpotifyPlaylist = {
+  id: string;
+  name: string;
+  owner: { display_name: string };
+  images: Image[];
+  tracks: { total: number };
+};
+
+type SpotifyTrack = {
+  id: string;
+  name: string;
+  duration_ms: number;
+  artists: SpotifyArtist[];
+  album: SpotifyAlbum;
+};
+
+type SpotifyPlaylistTrackItem = {
+  track: SpotifyTrack;
+};
+
 const getImage = (images: Image[]) => {
   if (!images || !images.length) return "";
   const largest = images.reduce((prev, current) => {
@@ -50,14 +80,14 @@ export const getNewRelease = async (token: string, country: string): Promise<Mus
   try {
     const { data } = await axiosRequest(config);
 
-    return data.albums.items.map((item: any) => {
+    return data.albums.items.map((item: SpotifyAlbum) => {
       return {
         name: item.name,
         artist: item.artists[0].name,
         image: getImage(item.images),
       };
     });
-  } catch (error) {
+  } catch {
     return [];
   }
 };
@@ -77,15 +107,15 @@ export const getFeaturedPlaylist = async (token: string, country: string): Promi
   try {
     const { data } = await axiosRequest(config);
     return data.playlists.items
-      .filter((item: any) => !!item)
-      .map((item: any) => {
+      .filter((item: SpotifyPlaylist | null) => !!item)
+      .map((item: SpotifyPlaylist) => {
         return {
           name: item.name,
           artist: item.owner.display_name,
           image: getImage(item.images),
         };
       });
-  } catch (error) {
+  } catch {
     return [];
   }
 };
@@ -104,8 +134,8 @@ export const getTopPlaylistId = async (token: string, country: string): Promise<
 
   try {
     const { data } = await axiosRequest(config);
-    return data.playlists.items.filter((item: any) => item.name.indexOf("50") >= 0)[3].id || "";
-  } catch (error) {
+    return data.playlists.items.filter((item: SpotifyPlaylist) => item.name.indexOf("50") >= 0)[3].id || "";
+  } catch {
     return "";
   }
 };
@@ -124,7 +154,7 @@ export const getTopPlaylist = async (token: string, id: string): Promise<MusicIt
 
   try {
     const { data } = await axiosRequest(config);
-    return data.tracks.items.map((item: any) => {
+    return data.tracks.items.map((item: SpotifyPlaylistTrackItem) => {
       const album = item.track?.album;
       return {
         name: album.name,
@@ -132,7 +162,7 @@ export const getTopPlaylist = async (token: string, id: string): Promise<MusicIt
         artist: album.artists[0]?.name,
       };
     });
-  } catch (error) {
+  } catch {
     return [];
   }
 };
@@ -151,13 +181,13 @@ export const getUserPlaylist = async (token: string, userId: string): Promise<Us
 
   try {
     const { data } = await axiosRequest(config);
-    return data.items.map((item: any) => ({
+    return data.items.map((item: SpotifyPlaylist) => ({
       id: item.id,
       image: item.images[0].url,
       name: item.name,
       total: item.tracks.total,
     }));
-  } catch (error) {
+  } catch {
     return [];
   }
 };
@@ -176,14 +206,14 @@ export const getPlaylistTracks = async (token: string, id: string): Promise<Musi
 
   try {
     const { data } = await axiosRequest(config);
-    return data.tracks.items.map((item: any) => ({
+    return data.tracks.items.map((item: SpotifyPlaylistTrackItem) => ({
       name: item.track.name,
       duration: item.track.duration_ms,
       id: item.track.id,
       artist: item.track.artists[0].name,
       image: item.track.album.images[0].url,
     }));
-  } catch (error) {
+  } catch {
     return [];
   }
 };

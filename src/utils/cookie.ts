@@ -17,7 +17,7 @@ const get = (name: string): string => {
  * @param value - cookie 值
  * @param expires 以毫秒為單位
  */
-const set = (name: string, value: any, expires?: number): void => {
+const set = (name: string, value: string, expires?: number): void => {
   const date = new Date();
 
   if (expires) date.setTime(date.getTime() + expires * 1000);

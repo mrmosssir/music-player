@@ -6,7 +6,6 @@ import { useAuth } from "@/hooks/useAuth";
 import { useDispatch } from "react-redux";
 import { setEnabled } from "@/store/common";
 
-import Logo from "@/components/Logo";
 import ProfileMenu from "@/components/ProfileMenu";
 import Theme from "@/components/Theme";
 import Icon from "@/components/Icon";
@@ -54,14 +53,23 @@ const AuthGroup = (props: AuthGroupProps) => {
 
   return (
     <div className="flex justify-between items-stretch relative">
-      <Logo type="mobile" className="w-20" />
+      {/* Logo */}
+      <div className="w-20 flex justify-start items-center lg:hidden">
+        <Icon icon="logo" className="w-6.5 h-6.5" alt="logo" />
+      </div>
+
+      {/* Title */}
       <Theme main={props.title} sub={props.subTitle} icon={props.icon} />
+
+      {/* Web Button Group */}
       <div className="hidden items-center gap-x-4 lg:flex">
         <button className="text-white h-10 min-w-36 rounded-full tracking-[0.05rem] bg-linear-to-r from-secondary-100 to-primary-400 cursor-pointer px-6">
           Music Premium
         </button>
         {user.name ? profileBtn() : loginBtn()}
       </div>
+
+      {/* Mobile Button Group */}
       <div className="flex items-center lg:hidden">
         <button className="block w-10 h-full" onClick={() => dispatch(setEnabled("search", true))}>
           <Icon icon="search" alt="開啟搜尋欄" className="mx-auto" />

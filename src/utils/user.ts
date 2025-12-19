@@ -38,7 +38,7 @@ export const getUserInfo = async (token: string): Promise<UserInfo | null> => {
       type: data.type,
       uri: data.uri,
     };
-  } catch (error) {
+  } catch {
     return null;
   }
 };
