@@ -9,11 +9,13 @@ npm run build
 # 移動到打包資料夾下
 cd dist
 
+rm -rf .git
+
 # 如果你要部署到自定義網域
 # echo 'www.example.com' > CNAME
 
 git init
-git checkout -b main
+git checkout -B main
 git add -A
 git commit -m 'deploy'
 
