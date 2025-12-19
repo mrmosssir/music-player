@@ -10,6 +10,7 @@ export type MusicItem = {
   name: string;
   artist: string;
   image: string;
+  type: string;
 };
 
 export type MusicTrack = {
@@ -85,6 +86,7 @@ export const getNewRelease = async (token: string, country: string): Promise<Mus
         name: item.name,
         artist: item.artists[0].name,
         image: getImage(item.images),
+        type: "album",
       };
     });
   } catch {
@@ -113,6 +115,7 @@ export const getFeaturedPlaylist = async (token: string, country: string): Promi
           name: item.name,
           artist: item.owner.display_name,
           image: getImage(item.images),
+          type: "playlist",
         };
       });
   } catch {
@@ -160,6 +163,7 @@ export const getTopPlaylist = async (token: string, id: string): Promise<MusicIt
         name: album.name,
         image: album.images[0]?.url,
         artist: album.artists[0]?.name,
+        type: "track",
       };
     });
   } catch {

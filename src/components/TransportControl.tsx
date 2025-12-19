@@ -5,6 +5,7 @@ import { type RootState } from "@/store";
 import { timeData } from "@/utils/time";
 
 import Icon from "@/components/Icon";
+import DefaultMusicImage from "@/components/defaultMusicImage";
 
 type TransportControlProps = {
   className?: string;
@@ -27,11 +28,16 @@ const TransportControl = (props: TransportControlProps) => {
         <Icon icon={isFavorite ? "favorite-fill" : "favorite"} alt="最愛" className="w-5 h-5" />
       </button>
       {/* 音樂資訊 */}
-      <div className="w-64 flex items-center gap-x-4">
+      <div className="relative w-64 flex items-center gap-x-4 overflow-x-hidden">
         {currentTrack && (
           <>
-            <img src={currentTrack.image} alt={`${currentTrack.name} 封面`} className="w-12.25 h-12.25" />
-            <div>
+            {currentTrack.image ? (
+              <img src={currentTrack.image} alt={`${currentTrack.name} 封面`} className="w-12.25 h-12.25" />
+            ) : (
+              <DefaultMusicImage size={12.25} />
+            )}
+
+            <div className="flex-1 overflow-hidden">
               <p className="text-white truncate">{currentTrack.name}</p>
               <small className="text-white/50">{currentTrack.artist}</small>
             </div>

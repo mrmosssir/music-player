@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.11.1",
+    "idb-keyval": "^6.2.2",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "react-redux": "^9.2.0",
@@ -24,6 +25,7 @@
     "@tailwindcss/vite": "^4.1.13",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
+    "@types/wicg-file-system-access": "^2023.10.7",
     "@vitejs/plugin-react": "^5.1.2",
     "axios": "^1.13.2",
     "eslint": "^9.39.2",
