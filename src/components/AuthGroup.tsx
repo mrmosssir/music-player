@@ -1,10 +1,12 @@
 import { useState } from "react";
 
 import { login } from "@/utils/auth";
+import { saveLocalFolderToHandler } from "@/utils/file";
 
 import { useAuth } from "@/hooks/useAuth";
 import { useDispatch } from "react-redux";
 import { setEnabled } from "@/store/common";
+import { setLocalMusic } from "@/store/music";
 
 import ProfileMenu from "@/components/ProfileMenu";
 import Theme from "@/components/Theme";
@@ -23,6 +25,11 @@ const AuthGroup = (props: AuthGroupProps) => {
 
   const { user } = useAuth();
   const [toggle, setToggle] = useState(false);
+
+  const handleLoadLocalMusic = async () => {
+    const music = await saveLocalFolderToHandler();
+    dispatch(setLocalMusic(music));
+  };
 
   const loginBtn = () => {
     return (
@@ -63,8 +70,11 @@ const AuthGroup = (props: AuthGroupProps) => {
 
       {/* Web Button Group */}
       <div className="hidden items-center gap-x-4 lg:flex">
-        <button className="text-white h-10 min-w-36 rounded-full tracking-[0.05rem] bg-linear-to-r from-secondary-100 to-primary-400 cursor-pointer px-6">
-          Music Premium
+        <button
+          className="text-white h-10 min-w-36 rounded-full tracking-[0.05rem] bg-linear-to-r from-secondary-100 to-primary-400 cursor-pointer px-6"
+          onClick={() => handleLoadLocalMusic()}
+        >
+          讀取本地圖片
         </button>
         {user.name ? profileBtn() : loginBtn()}
       </div>
