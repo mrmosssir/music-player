@@ -18,7 +18,7 @@ const Preview = (props: PreviewProps) => {
         </Link>
       </div>
       <ul className="w-full flex items-center gap-x-1 whitespace-nowrap overflow-x-auto mt-3 lg:gap-x-4">
-        {[...props.list, ...props.list].map((item, index) => {
+        {props.list.map((item, index) => {
           return (
             <li className="mr-4 lg:mr-0 min-w-34 aspect-square" key={index}>
               <img src={item.image} alt={item.name} className="w-full h-full object-cover rounded" />

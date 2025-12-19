@@ -55,7 +55,7 @@ const clientToken = async (code: string): Promise<Token | null> => {
       refresh_token: data.refresh_token,
       expires_in: data.expires_in,
     };
-  } catch (error) {
+  } catch {
     return null;
   }
 };
@@ -85,7 +85,7 @@ const adminToken = async (): Promise<string> => {
     // cookie.set('admin_token', data.access_token, data.expires_in);
 
     return data.access_token;
-  } catch (error) {
+  } catch {
     return "";
   }
 };

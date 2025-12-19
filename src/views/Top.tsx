@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { type RootState } from "@/store";
 
@@ -13,7 +13,7 @@ const Top = () => {
   const [country] = useState<string>("TW");
   const [list, setList] = useState<MusicItem[]>([]);
 
-  const handleGetData = async (): Promise<void> => {
+  const handleGetData = useCallback(async (): Promise<void> => {
     if (!token) return;
 
     const id = await getTopPlaylistId(token, country);
@@ -21,11 +21,12 @@ const Top = () => {
 
     const top = await getTopPlaylist(token, id);
     setList(top);
-  };
+  }, [token, country]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     handleGetData();
-  }, [token, country]);
+  }, [token, country, handleGetData]);
 
   return (
     <div className="h-full w-4/5 mx-auto py-10">
