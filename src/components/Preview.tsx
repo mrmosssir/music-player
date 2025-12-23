@@ -5,7 +5,7 @@ import { setCurrent } from "@/store/music";
 import { type MusicItem } from "@/utils/browse";
 
 import Icon from "@/components/Icon";
-import DefaultMusicImage from "@/components/defaultMusicImage";
+import DefaultMusicImage from "@/components/DefaultMusicImage";
 
 export type PreviewProps = {
   title: string;
