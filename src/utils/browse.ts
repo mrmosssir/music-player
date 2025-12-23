@@ -11,6 +11,7 @@ export type MusicItem = {
   artist: string;
   image: string;
   type: string;
+  url?: string;
 };
 
 export type MusicTrack = {

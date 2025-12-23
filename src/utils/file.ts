@@ -15,12 +15,16 @@ export const saveLocalFolderToHandler = async (): Promise<MusicItem[]> => {
     await scanFolder(folderHandler, mp3Handler);
     await set("local-music-library", mp3Handler);
 
-    return mp3Handler.map((handle) => ({
-      name: handle.name,
-      image: "",
-      artist: "本地音樂",
-      type: "local",
-    })) as MusicItem[];
+    const musicItems = await Promise.all(
+      mp3Handler.map(async (handle) => ({
+        name: handle.name,
+        image: "",
+        artist: "本地音樂",
+        type: "local",
+        url: URL.createObjectURL(await handle.getFile()),
+      })),
+    );
+    return musicItems;
   } catch (error) {
     console.error("Error saving local folder:", error);
     return [] as MusicItem[];
@@ -32,12 +36,16 @@ export const loadLocalMusicFromHandler = async (): Promise<MusicItem[]> => {
     const mp3Handler: FileSystemFileHandle[] | undefined = await get("local-music-library");
     if (!mp3Handler) return [];
 
-    return mp3Handler.map((handle) => ({
-      name: handle.name,
-      image: "",
-      artist: "本地音樂",
-      type: "local",
-    })) as MusicItem[];
+    const musicItems = await Promise.all(
+      mp3Handler.map(async (handle) => ({
+        name: handle.name,
+        image: "",
+        artist: "本地音樂",
+        type: "local",
+        url: URL.createObjectURL(await handle.getFile()),
+      })),
+    );
+    return musicItems;
   } catch (error) {
     console.error("Error loading local music from handler:", error);
     return [];

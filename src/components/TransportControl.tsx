@@ -1,22 +1,31 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { type RootState } from "@/store";
+import { setIsPlaying } from "@/store/music";
 
 import { timeData } from "@/utils/time";
 
 import Icon from "@/components/Icon";
-import DefaultMusicImage from "@/components/defaultMusicImage";
+import DefaultMusicImage from "@/components/DefaultMusicImage";
 
 type TransportControlProps = {
   className?: string;
 };
 
 const TransportControl = (props: TransportControlProps) => {
+  const dispatch = useDispatch();
+
   const currentTrack = useSelector((state: RootState) => state.music.current);
+  const duration = useSelector((state: RootState) => state.music.duration);
+  const currentTime = useSelector((state: RootState) => state.music.currentTime);
 
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const [progress, setProgress] = useState<string>("0");
   const [sound, setSound] = useState<string>("80");
+
+  const handlePause = () => {
+    dispatch(setIsPlaying(!currentTrack?.isPlaying));
+  };
 
   return (
     <div className={`h-full flex items-center gap-x-6 bg-primary-600 px-10 shadow-[5px_0px_10px_rgba(0,0,0,0.2)] ${props.className}`}>
@@ -56,12 +65,13 @@ const TransportControl = (props: TransportControlProps) => {
             <Icon icon="previous" alt="上一首" width={16} height={16}></Icon>
           </button>
           <button
-            disabled
+            disabled={!currentTrack.name}
             className={`
               flex justify-center items-center w-11 h-11 rounded-full bg-linear-to-b
-              ${currentTrack?.isPlaying ? "p-0" : "pl-0.5"}
-              ${currentTrack ? "from-secondary-100 to-primary-400 cursor-pointer" : "from-gray-400 to-gray-600 opacity-50 cursor-not-allowed"}
+              ${currentTrack.isPlaying ? "p-0" : "pl-0.5"}
+              ${currentTrack.name ? "from-secondary-100 to-primary-400 cursor-pointer" : "from-gray-400 to-gray-600 opacity-50 cursor-not-allowed"}
             `}
+            onClick={() => handlePause()}
           >
             <Icon icon={currentTrack?.isPlaying ? "pause" : "play"} alt={currentTrack?.isPlaying ? "暫停" : "播放"} width={12} height={12}></Icon>
           </button>
@@ -75,7 +85,7 @@ const TransportControl = (props: TransportControlProps) => {
 
         {/* 下方進度條區域 */}
         <div className="flex-1 flex justify-center items-center gap-x-8 mt-2">
-          <span className="text-xs text-white/50">--:--</span>
+          <span className="text-xs text-white/50">{currentTrack ? `${timeData(currentTime).minute}:${timeData(currentTime).second}` : "--:--"}</span>
           <div className="relative flex-1 h-0.5 bg-white/50 rounded-full group">
             {/* 已播放進度條 */}
             <div className="absolute h-full bg-linear-to-r from-secondary-100 to-primary-400 rounded-full" style={{ width: `${progress}%` }} />
@@ -94,9 +104,7 @@ const TransportControl = (props: TransportControlProps) => {
               style={{ left: `${progress}%` }}
             />
           </div>
-          <span className="text-xs text-white/50">
-            {currentTrack ? `${timeData(currentTrack.duration).minute}:${timeData(currentTrack.duration).second}` : "--:--"}
-          </span>
+          <span className="text-xs text-white/50">{currentTrack ? `${timeData(duration).minute}:${timeData(duration).second}` : "--:--"}</span>
         </div>
       </div>
 

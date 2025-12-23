@@ -53,11 +53,12 @@ const Playlist = (props: PlaylistProps) => {
   };
 
   const handleClickPlay = (track: MusicTrack) => {
-    if (track.id === currentTrack?.id) {
-      dispatch(setIsPlaying(!currentTrack.isPlaying));
-      return;
-    }
-    dispatch(setCurrent({ ...track, isPlaying: true }));
+    console.log(track, "track");
+    // if (track.id === currentTrack?.id) {
+    //   dispatch(setIsPlaying(!currentTrack.isPlaying));
+    //   return;
+    // }
+    // dispatch(setCurrent({ ...track, isPlaying: true }));
   };
 
   useEffect(() => {
@@ -90,7 +91,7 @@ const Playlist = (props: PlaylistProps) => {
         <button className="w-6 h-6 rounded-full border border-white cursor-pointer" onClick={() => handleClickPlay(track)}>
           <Icon icon="play" width="8" height="8" className="mx-auto" />
         </button>
-        <img src={track.image} alt="測試" className="w-12.25 h-12.25" />
+        <img src={track.image} alt="音樂封面" className="w-12.25 h-12.25" />
         <div className="w-1/2">
           <p className="text-white truncate">{track.name}</p>
           <small className="text-white/50">{track.artist}</small>
