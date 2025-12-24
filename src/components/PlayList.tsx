@@ -2,9 +2,8 @@ import { useState, useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { type RootState } from "@/store";
 import { setEnabled } from "@/store/common";
-import { setCurrent, setIsPlaying } from "@/store/music";
 
-import { getPlaylistTracks, getUserPlaylist } from "@/utils/browse";
+import { getPlaylistTracks, getUserPlaylist, getTrackInfo } from "@/utils/browse";
 import type { MusicTrack, UserPlaylistItem } from "@/utils/browse";
 import { timeData } from "@/utils/time";
 
@@ -20,7 +19,6 @@ const Playlist = (props: PlaylistProps) => {
   const token = useSelector((state: RootState) => state.auth.token);
   const user = useSelector((state: RootState) => state.auth.user);
   const enabled = useSelector((state: RootState) => state.common.enabled);
-  const currentTrack = useSelector((state: RootState) => state.music.current);
 
   const [playlist, setPlaylist] = useState<UserPlaylistItem[]>([]);
   const [active, setActive] = useState<number | null>(2);
@@ -52,13 +50,9 @@ const Playlist = (props: PlaylistProps) => {
     handleGetTracks(id, idx);
   };
 
-  const handleClickPlay = (track: MusicTrack) => {
-    console.log(track, "track");
-    // if (track.id === currentTrack?.id) {
-    //   dispatch(setIsPlaying(!currentTrack.isPlaying));
-    //   return;
-    // }
-    // dispatch(setCurrent({ ...track, isPlaying: true }));
+  const handleClickPlay = async (track: MusicTrack) => {
+    const info = await getTrackInfo(token, track.id);
+    window.open(info.url, "_blank");
   };
 
   useEffect(() => {

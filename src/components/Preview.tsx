@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setCurrent } from "@/store/music";
 
+import { getTrackInfo } from "@/utils/browse";
 import { type MusicItem } from "@/utils/browse";
 
 import Icon from "@/components/Icon";
@@ -16,11 +17,11 @@ export type PreviewProps = {
 const Preview = (props: PreviewProps) => {
   const dispatch = useDispatch();
 
-  const handleClickPlay = (item: MusicItem): void => {
-    const supportPlayTypes = ["track", "local"];
-    if (!supportPlayTypes.includes(item.type)) return;
-
-    dispatch(setCurrent({ ...item, isPlaying: true }));
+  const handleClickPlay = async (item: MusicItem): Promise<void> => {
+    if (item.type === "local") {
+      dispatch(setCurrent({ ...item, isPlaying: true }));
+      return;
+    }
   };
 
   return (
