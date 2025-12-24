@@ -42,7 +42,8 @@ export const loadLocalMusicFromHandler = async (): Promise<MusicItem[]> => {
         image: "",
         artist: "本地音樂",
         type: "local",
-        url: URL.createObjectURL(await handle.getFile()),
+        url: "",
+        method: async () => await handle.getFile(),
       })),
     );
     return musicItems;

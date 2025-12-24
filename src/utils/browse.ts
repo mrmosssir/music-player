@@ -12,6 +12,7 @@ export type MusicItem = {
   image: string;
   type: string;
   url?: string;
+  method?: () => Promise<File>;
 };
 
 export type MusicTrack = {
@@ -47,6 +48,7 @@ type SpotifyPlaylist = {
   owner: { display_name: string };
   images: Image[];
   tracks: { total: number };
+  external_urls: { spotify: string };
 };
 
 type SpotifyTrack = {
@@ -74,7 +76,7 @@ export const getNewRelease = async (token: string, country: string): Promise<Mus
 
   const config = {
     method: "GET",
-    url: `${url}?${new URLSearchParams({ country: country, limit: "8" }).toString()}`,
+    url: `${url}?${new URLSearchParams({ country: country || "TW", limit: "8" }).toString()}`,
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/x-www-form-urlencoded",
@@ -90,6 +92,7 @@ export const getNewRelease = async (token: string, country: string): Promise<Mus
         artist: item.artists[0].name,
         image: getImage(item.images),
         type: "album",
+        url: item.external_urls.spotify,
       };
     });
   } catch {
@@ -102,7 +105,7 @@ export const getFeaturedPlaylist = async (token: string, country: string): Promi
 
   const config = {
     method: "GET",
-    url: `${url}?${new URLSearchParams({ q: "featured", type: "playlist", limit: "8", market: country }).toString()}`,
+    url: `${url}?${new URLSearchParams({ q: "featured", type: "playlist", limit: "8", market: country || "TW" }).toString()}`,
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/x-www-form-urlencoded",
@@ -119,6 +122,7 @@ export const getFeaturedPlaylist = async (token: string, country: string): Promi
           artist: item.owner.display_name,
           image: getImage(item.images),
           type: "playlist",
+          url: item.external_urls.spotify,
         };
       });
   } catch {
@@ -131,7 +135,7 @@ export const getTopPlaylistId = async (token: string, country: string): Promise<
 
   const config = {
     method: "GET",
-    url: `${url}?${new URLSearchParams({ country: country, limit: "20" }).toString()}`,
+    url: `${url}?${new URLSearchParams({ country: country || "TW", limit: "20" }).toString()}`,
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/x-www-form-urlencoded",
