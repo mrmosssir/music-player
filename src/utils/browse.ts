@@ -20,6 +20,7 @@ export type MusicTrack = {
   id: string;
   artist: string;
   image: string;
+  url: string;
 };
 
 export type UserPlaylistItem = {
@@ -37,6 +38,7 @@ type SpotifyAlbum = {
   name: string;
   artists: SpotifyArtist[];
   images: Image[];
+  external_urls: { spotify: string };
 };
 
 type SpotifyPlaylist = {
@@ -220,5 +222,32 @@ export const getPlaylistTracks = async (token: string, id: string): Promise<Musi
     }));
   } catch {
     return [];
+  }
+};
+
+export const getTrackInfo = async (token: string, id: string): Promise<MusicTrack> => {
+  const url = `${import.meta.env.VITE_API_BASE_URL}/tracks/${id}`;
+
+  const config = {
+    method: "GET",
+    url,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  };
+
+  try {
+    const { data } = await axiosRequest(config);
+    return {
+      name: data.name,
+      duration: data.duration_ms,
+      id: data.id,
+      artist: data.artists[0].name,
+      image: data.album.images[0].url,
+      url: data.album.external_urls.spotify,
+    };
+  } catch {
+    return {} as MusicTrack;
   }
 };
