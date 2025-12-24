@@ -30,10 +30,10 @@ const Main = () => {
   }, [token, user]);
 
   return (
-    <div className="h-full w-6/7 mx-auto py-10 lg:w-4/5">
+    <div className="min-h-full w-6/7 mx-auto py-10 lg:w-4/5">
       <AuthGroup title="每日精選" subTitle="Daily Featured" />
       <Banner image={newMusic[0]?.image} name={newMusic[0]?.name} artist={newMusic[0]?.artist} />
-      <Preview title="我的音樂" list={localMusic} />
+      {localMusic.length > 0 && <Preview title="我的音樂" list={localMusic} />}
       <Preview title="最新專輯" list={newMusic.filter((item, index) => index > 0)} link="/" />
       <Preview title="推薦歌單" list={featured} link="/" />
     </div>

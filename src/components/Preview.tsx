@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setCurrent } from "@/store/music";
 
-import { getTrackInfo } from "@/utils/browse";
 import { type MusicItem } from "@/utils/browse";
 
 import Icon from "@/components/Icon";
@@ -19,7 +18,15 @@ const Preview = (props: PreviewProps) => {
 
   const handleClickPlay = async (item: MusicItem): Promise<void> => {
     if (item.type === "local") {
+      if (!item.url) {
+        const url = URL.createObjectURL(await item.method!());
+        item.url = url;
+      }
       dispatch(setCurrent({ ...item, isPlaying: true }));
+      return;
+    }
+    if (item.type === "album" || item.type === "playlist") {
+      window.open(item.url, "_blank");
       return;
     }
   };
