@@ -9,6 +9,7 @@ export const MusicSlice = createSlice({
     local: [] as MusicItem[],
     duration: 0,
     currentTime: 0,
+    isRandom: false,
   },
   reducers: {
     setCurrent: (state, action) => {
@@ -35,8 +36,11 @@ export const MusicSlice = createSlice({
     setCurrentTime: (state, action) => {
       state.currentTime = action.payload;
     },
+    setIsRandom: (state, action) => {
+      state.isRandom = action.payload;
+    },
   },
 });
 
-export const { setCurrent, setIsPlaying, setLocalMusic, setDuration, setCurrentTime } = MusicSlice.actions;
+export const { setCurrent, setIsPlaying, setLocalMusic, setDuration, setCurrentTime, setIsRandom } = MusicSlice.actions;
 export default MusicSlice.reducer;
