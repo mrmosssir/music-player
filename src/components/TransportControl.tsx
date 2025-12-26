@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { type RootState } from "@/store";
-import { setIsPlaying } from "@/store/music";
+import { setIsPlaying, setCurrentTime, setIsRandom } from "@/store/music";
 
 import { timeData } from "@/utils/time";
+import { audioManager } from "@/utils/audio";
 
 import Icon from "@/components/Icon";
 import DefaultMusicImage from "@/components/DefaultMusicImage";
@@ -18,6 +19,7 @@ const TransportControl = (props: TransportControlProps) => {
   const currentTrack = useSelector((state: RootState) => state.music.current);
   const duration = useSelector((state: RootState) => state.music.duration);
   const currentTime = useSelector((state: RootState) => state.music.currentTime);
+  const isRandom = useSelector((state: RootState) => state.music.isRandom);
 
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const [progress, setProgress] = useState<string>("0");
@@ -25,6 +27,16 @@ const TransportControl = (props: TransportControlProps) => {
 
   const handlePause = () => {
     dispatch(setIsPlaying(!currentTrack?.isPlaying));
+  };
+
+  const handleSetPlayProgress = (value: string) => {
+    const time = (parseFloat(value) / 100) * duration;
+    audioManager.getAudio().currentTime = time;
+    dispatch(setCurrentTime(Math.floor(time)));
+  };
+
+  const handleSetRandomPlay = () => {
+    dispatch(setIsRandom(!isRandom));
   };
 
   useEffect(() => {
@@ -64,8 +76,8 @@ const TransportControl = (props: TransportControlProps) => {
         <div className="flex-1 px-24">
           {/* 上方控制按鈕 */}
           <div className="w-full flex justify-center items-center gap-x-8">
-            <button className={currentTrack.name ? "cursor-pointer" : "cursor-not-allowed opacity-50"}>
-              <Icon icon="reload" alt="重播" width={16} height={16}></Icon>
+            <button className={currentTrack.name ? "cursor-pointer" : "cursor-not-allowed opacity-50"} onClick={() => handleSetRandomPlay()}>
+              <Icon icon="random" alt="隨機播放" width={16} height={16} className={isRandom ? "" : "opacity-50"}></Icon>
             </button>
             <button className={currentTrack.name ? "cursor-pointer" : "cursor-not-allowed opacity-50"}>
               <Icon icon="previous" alt="上一首" width={16} height={16}></Icon>
@@ -84,26 +96,34 @@ const TransportControl = (props: TransportControlProps) => {
             <button className={currentTrack.name ? "cursor-pointer" : "cursor-not-allowed opacity-50"}>
               <Icon icon="next" alt="下一首" width={16} height={16}></Icon>
             </button>
-            <button className={currentTrack.name ? "cursor-pointer" : "cursor-not-allowed opacity-50"}>
-              <Icon icon="cycle" alt="循環播放" width={16} height={16}></Icon>
+            <button
+              className={currentTrack.name ? "cursor-pointer" : "cursor-not-allowed opacity-50"}
+              onClick={() => {
+                audioManager.setLoop(!audioManager.getAudio().loop);
+              }}
+            >
+              <Icon icon="cycle" alt="循環播放" width={16} height={16} className={audioManager.getAudio().loop ? "" : "opacity-50"}></Icon>
             </button>
           </div>
 
           {/* 下方進度條區域 */}
           <div className="flex-1 flex justify-center items-center gap-x-8 mt-2">
-            <span className="text-xs text-white/50">
+            <span className="text-xs text-white/50 w-8">
               {currentTrack.name ? `${timeData(currentTime).minute}:${timeData(currentTime).second}` : "--:--"}
             </span>
             <div className="relative flex-1 h-0.5 bg-white/50 rounded-full group">
               {/* 已播放進度條 */}
-              <div className="absolute h-full bg-linear-to-r from-secondary-100 to-primary-400 rounded-full" style={{ width: `${progress}%` }} />
+              <div
+                className="absolute w-full h-full bg-linear-to-r from-secondary-100 to-primary-400 rounded-full"
+                style={{ width: `${progress}%` }}
+              />
 
               {/* 真正的 Range Input (透明，蓋在最上面負責接收點擊) */}
               <input
                 type="range"
                 className="absolute w-full h-full opacity-0 cursor-pointer"
                 disabled={!currentTrack}
-                onChange={(e) => setProgress(e.target.value)}
+                onChange={(e) => handleSetPlayProgress(e.target.value)}
               />
 
               {/* 自製的圓點 */}
@@ -112,7 +132,9 @@ const TransportControl = (props: TransportControlProps) => {
                 style={{ left: `${progress}%` }}
               />
             </div>
-            <span className="text-xs text-white/50">{currentTrack.name ? `${timeData(duration).minute}:${timeData(duration).second}` : "--:--"}</span>
+            <span className="text-xs text-white/50 w-8">
+              {currentTrack.name ? `${timeData(duration).minute}:${timeData(duration).second}` : "--:--"}
+            </span>
           </div>
         </div>
 
@@ -197,7 +219,7 @@ const TransportControl = (props: TransportControlProps) => {
               type="range"
               className="absolute w-full h-full opacity-0 cursor-pointer"
               disabled={!currentTrack}
-              onChange={(e) => setProgress(e.target.value)}
+              onChange={(e) => handleSetPlayProgress(e.target.value)}
             />
           </div>
         </div>

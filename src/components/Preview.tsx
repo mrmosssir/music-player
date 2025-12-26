@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { setCurrent } from "@/store/music";
+import { useSelector, useDispatch } from "react-redux";
+import { type RootState } from "@/store";
+import { setCurrent, setIsPlaying } from "@/store/music";
 
 import { type MusicItem } from "@/utils/browse";
 
@@ -16,18 +17,28 @@ export type PreviewProps = {
 const Preview = (props: PreviewProps) => {
   const dispatch = useDispatch();
 
-  const handleClickPlay = async (item: MusicItem): Promise<void> => {
-    if (item.type === "local") {
-      if (!item.url) {
-        const url = URL.createObjectURL(await item.method!());
-        item.url = url;
-      }
-      dispatch(setCurrent({ ...item, isPlaying: true }));
+  const current = useSelector((state: RootState) => state.music.current);
+
+  const handleLocalMusicPlay = async (item: MusicItem): Promise<void> => {
+    // 播放或暫停目前音樂
+    if (item.id === current?.id) {
+      dispatch(setIsPlaying(!current.isPlaying));
       return;
     }
-    if (item.type === "album" || item.type === "playlist") {
-      window.open(item.url, "_blank");
-      return;
+    // 點擊新的音樂時，設定並播放
+    const url = item.url || URL.createObjectURL(await item.method!());
+    dispatch(setCurrent({ ...item, url, isPlaying: true }));
+  };
+
+  const handleClickPlay = (item: MusicItem): void => {
+    switch (item.type) {
+      case "local":
+        handleLocalMusicPlay(item);
+        break;
+      case "album":
+      case "playlist":
+        window.open(item.url, "_blank");
+        break;
     }
   };
 
@@ -46,14 +57,26 @@ const Preview = (props: PreviewProps) => {
       {/* 音樂資訊 */}
       <ul className="w-full flex items-center gap-x-1 whitespace-nowrap overflow-x-auto mt-3 lg:gap-x-4">
         {props.list.map((item, index) => {
+          const isPlaying = current?.id === item.id && current?.isPlaying;
+
           return (
             <li className="mr-4 lg:mr-0 min-w-34 w-34 aspect-square" key={index}>
               {/* 圖片 */}
               <div className="w-full h-rull relative aspect-square" onClick={() => handleClickPlay(item)}>
                 {item?.image ? <img src={item.image} alt={item.name} className="w-full h-full object-cover rounded" /> : <DefaultMusicImage />}
 
-                <div className="w-full h-full absolute top-0 left-0 bg-black/70 flex justify-center items-center opacity-0 hover:opacity-100 rounded cursor-pointer transition">
-                  <Icon icon="player" alt="play icon" width={48} height={48} />
+                <div
+                  className={`w-full h-full absolute top-0 left-0 bg-black/70 flex justify-center items-center opacity-0 hover:opacity-100 rounded cursor-pointer transition ${current?.id === item.id ? "opacity-100" : ""}`}
+                >
+                  <div className="w-12 h-12 border border-white rounded-full flex justify-center items-center">
+                    <Icon
+                      icon={isPlaying ? "pause" : "play"}
+                      alt="player icon"
+                      width={isPlaying ? 14 : 16}
+                      height={isPlaying ? 14 : 16}
+                      className={isPlaying ? "" : "ml-0.5"}
+                    />
+                  </div>
                 </div>
               </div>
 

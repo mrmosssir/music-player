@@ -15,16 +15,7 @@ export const saveLocalFolderToHandler = async (): Promise<MusicItem[]> => {
     await scanFolder(folderHandler, mp3Handler);
     await set("local-music-library", mp3Handler);
 
-    const musicItems = await Promise.all(
-      mp3Handler.map(async (handle) => ({
-        name: handle.name,
-        image: "",
-        artist: "本地音樂",
-        type: "local",
-        url: URL.createObjectURL(await handle.getFile()),
-      })),
-    );
-    return musicItems;
+    return await loadLocalMusicFromHandler();
   } catch (error) {
     console.error("Error saving local folder:", error);
     return [] as MusicItem[];
@@ -37,13 +28,25 @@ export const loadLocalMusicFromHandler = async (): Promise<MusicItem[]> => {
     if (!mp3Handler) return [];
 
     const musicItems = await Promise.all(
-      mp3Handler.map(async (handle) => ({
+      mp3Handler.map(async (handle, index) => ({
         name: handle.name,
         image: "",
         artist: "本地音樂",
+        id: `local-${index}`,
         type: "local",
         url: "",
-        method: async () => await handle.getFile(),
+        method: async () => {
+          // 檢查權限
+          const permission = await handle.queryPermission({ mode: "read" });
+          if (permission !== "granted") {
+            // 請求權限
+            const newPermission = await handle.requestPermission({ mode: "read" });
+            if (newPermission !== "granted") {
+              throw new Error("無法獲得檔案存取權限");
+            }
+          }
+          return await handle.getFile();
+        },
       })),
     );
     return musicItems;

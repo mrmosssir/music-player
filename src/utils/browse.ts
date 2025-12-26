@@ -7,6 +7,7 @@ export type Image = {
 };
 
 export type MusicItem = {
+  id: string;
   name: string;
   artist: string;
   image: string;
@@ -36,6 +37,7 @@ type SpotifyArtist = {
 };
 
 type SpotifyAlbum = {
+  id: string;
   name: string;
   artists: SpotifyArtist[];
   images: Image[];
@@ -88,6 +90,7 @@ export const getNewRelease = async (token: string, country: string): Promise<Mus
 
     return data.albums.items.map((item: SpotifyAlbum) => {
       return {
+        id: item.id,
         name: item.name,
         artist: item.artists[0].name,
         image: getImage(item.images),
@@ -118,6 +121,7 @@ export const getFeaturedPlaylist = async (token: string, country: string): Promi
       .filter((item: SpotifyPlaylist | null) => !!item)
       .map((item: SpotifyPlaylist) => {
         return {
+          id: item.id,
           name: item.name,
           artist: item.owner.display_name,
           image: getImage(item.images),
@@ -167,6 +171,7 @@ export const getTopPlaylist = async (token: string, id: string): Promise<MusicIt
     return data.tracks.items.map((item: SpotifyPlaylistTrackItem) => {
       const album = item.track?.album;
       return {
+        id: item.track.id,
         name: album.name,
         image: album.images[0]?.url,
         artist: album.artists[0]?.name,

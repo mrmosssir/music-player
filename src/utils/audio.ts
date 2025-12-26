@@ -25,6 +25,10 @@ class AudioManager {
     this.audio.volume = volume;
   }
 
+  setLoop(loop: boolean) {
+    this.audio.loop = loop;
+  }
+
   addEventListener(event: string, callback: EventListener) {
     this.audio.addEventListener(event, callback);
   }
