@@ -79,7 +79,7 @@ const TransportControl = (props: TransportControlProps) => {
             <button className={currentTrack.name ? "cursor-pointer" : "cursor-not-allowed opacity-50"} onClick={() => handleSetRandomPlay()}>
               <Icon icon="random" alt="隨機播放" width={16} height={16} className={isRandom ? "" : "opacity-50"}></Icon>
             </button>
-            <button className={currentTrack.name ? "cursor-pointer" : "cursor-not-allowed opacity-50"}>
+            <button className={currentTrack.name ? "cursor-pointer" : "cursor-not-allowed opacity-50"} onClick={() => audioManager.next(-1)}>
               <Icon icon="previous" alt="上一首" width={16} height={16}></Icon>
             </button>
             <button
@@ -93,7 +93,7 @@ const TransportControl = (props: TransportControlProps) => {
             >
               <Icon icon={currentTrack.isPlaying ? "pause" : "play"} alt={currentTrack.isPlaying ? "暫停" : "播放"} width={12} height={12}></Icon>
             </button>
-            <button className={currentTrack.name ? "cursor-pointer" : "cursor-not-allowed opacity-50"}>
+            <button className={currentTrack.name ? "cursor-pointer" : "cursor-not-allowed opacity-50"} onClick={() => audioManager.next(1)}>
               <Icon icon="next" alt="下一首" width={16} height={16}></Icon>
             </button>
             <button
@@ -148,14 +148,17 @@ const TransportControl = (props: TransportControlProps) => {
           <Icon icon="sound" alt="音量" width={16} height={16}></Icon>
           <div className="relative w-24 flex-1 h-0.5 bg-white/50 rounded-full group">
             {/* 目前音量進度條 */}
-            <div className="absolute h-full bg-white rounded-full" style={{ width: `${sound}%` }} />
+            <div className="absolute h-full bg-white rounded-full" style={{ width: `${audioManager.getAudio().volume * 100}%` }} />
 
             {/* 真正的 Range Input (透明，蓋在最上面負責接收點擊) */}
             <input
               type="range"
               className="absolute w-full h-full opacity-0 cursor-pointer"
               disabled={!currentTrack.name}
-              onChange={(e) => setSound(e.target.value)}
+              min="0"
+              max="1"
+              step="0.01"
+              onChange={(e) => audioManager.setVolume(Number(e.target.value))}
             />
           </div>
         </div>
@@ -189,7 +192,7 @@ const TransportControl = (props: TransportControlProps) => {
           <div className="flex justify-between items-start gap-x-6">
             <span className="text-white/50 text-xs mt-1.5">{currentTrack.artist}</span>
             <div className="flex justify-end items-center gap-x-6">
-              <button className={currentTrack.name ? "cursor-pointer" : "cursor-not-allowed opacity-50"}>
+              <button className={currentTrack.name ? "cursor-pointer" : "cursor-not-allowed opacity-50"} onClick={() => audioManager.next(-1)}>
                 <Icon icon="previous" alt="上一首" width={12} height={12}></Icon>
               </button>
               <button
@@ -203,7 +206,7 @@ const TransportControl = (props: TransportControlProps) => {
               >
                 <Icon icon={currentTrack.isPlaying ? "pause" : "play"} alt={currentTrack.isPlaying ? "暫停" : "播放"} width={9} height={9}></Icon>
               </button>
-              <button className={currentTrack.name ? "cursor-pointer" : "cursor-not-allowed opacity-50"}>
+              <button className={currentTrack.name ? "cursor-pointer" : "cursor-not-allowed opacity-50"} onClick={() => audioManager.next(1)}>
                 <Icon icon="next" alt="下一首" width={12} height={12}></Icon>
               </button>
             </div>

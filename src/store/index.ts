@@ -10,7 +10,7 @@ export type RootState = {
   music: ReturnType<typeof MusicReducer>;
 };
 
-export default configureStore({
+const store = configureStore({
   reducer: {
     common: CommonReducer,
     auth: AuthReducer,
@@ -21,3 +21,5 @@ export default configureStore({
       serializableCheck: false,
     }),
 });
+
+export default store;

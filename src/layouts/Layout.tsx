@@ -16,19 +16,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const localMusic = useSelector((state: RootState) => state.music.local);
   const isRandom = useSelector((state: RootState) => state.music.isRandom);
 
-  // 尋找下一首音樂並播放
-  const playNextMusic = (list: typeof localMusic, currentId: string) => {
-    list.forEach(async (item, index) => {
-      // 找出下一首音樂
-      if (item.id === currentId) {
-        const next = list[index + 1] || list[0];
-        const url = next.url || URL.createObjectURL(await next.method!());
-        dispatch(setCurrent({ ...next, url, isPlaying: true }));
-        return;
-      }
-    });
-  };
-
   // 隨機播放一首音樂
   const playRandomMusic = async (list: typeof localMusic) => {
     const randomIndex = Math.floor(Math.random() * list.length);
@@ -65,7 +52,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         return;
       }
       // 播放下一首
-      playNextMusic(localMusic, currentTrack.id);
+      audioManager.next(1);
     });
   }, [currentTrack]);
 
