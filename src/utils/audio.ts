@@ -1,3 +1,6 @@
+import store from "@/store";
+import { setCurrent } from "@/store/music";
+
 class AudioManager {
   private audio: HTMLAudioElement;
 
@@ -35,6 +38,23 @@ class AudioManager {
 
   removeEventListener(event: string, callback: EventListener) {
     this.audio.removeEventListener(event, callback);
+  }
+
+  async next(direct: number) {
+    const state = store.getState();
+    const currentTrack = state.music.current;
+    const localMusic = state.music.local;
+    const defaultPosition = direct === 1 ? 0 : localMusic.length - 1;
+
+    for (let index = 0; index < localMusic.length; index++) {
+      const item = localMusic[index];
+      if (item.id === currentTrack.id) {
+        const next = localMusic[index + direct] || localMusic[defaultPosition];
+        const url = next.url || URL.createObjectURL(await next.method!());
+        store.dispatch(setCurrent({ ...next, url, isPlaying: true }));
+        return;
+      }
+    }
   }
 }
 
