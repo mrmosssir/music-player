@@ -47,7 +47,7 @@ type SpotifyAlbum = {
 type SpotifyPlaylist = {
   id: string;
   name: string;
-  owner: { display_name: string };
+  owner: { id: string; display_name: string };
   images: Image[];
   tracks: { total: number };
   external_urls: { spotify: string };
@@ -134,7 +134,7 @@ export const getFeaturedPlaylist = async (token: string, country: string): Promi
   }
 };
 
-export const getTopPlaylistId = async (token: string, country: string): Promise<string> => {
+export const getTopPlaylistId = async (token: string): Promise<string> => {
   // 技巧：直接搜尋 "Filtr Global" 或 "Filtr Hits"
   // 這樣可以找到 Filtr 品牌維護的熱門歌單
   const query = "Billboard Hot 100";
@@ -153,7 +153,7 @@ export const getTopPlaylistId = async (token: string, country: string): Promise<
 
   // 雖然搜尋結果通常很準，但為了保險，我們可以過濾一下
   // 確保擁有者名稱包含 'Filtr' (大小寫不拘)
-  const playlist = data.playlists.items.filter((item: SpotifyPlaylist) => !!item && item.owner.display_name?.toLowerCase().includes("billboard"));
+  const playlist = data.playlists.items.filter((item: SpotifyPlaylist) => !!item && item.owner.id !== "spotify");
 
   return playlist.length ? playlist[0].id : "";
 };
