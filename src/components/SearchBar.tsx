@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { type RootState } from "@/store";
 import { setEnabled } from "@/store/common";
@@ -12,6 +12,7 @@ const SearchBar = () => {
   const [keyword, setKeyword] = useState<string>("");
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const badge: string[] = ["放鬆", "搖滾", "R&B", "Hip-Hop", "測試"];
   const menu = [{ name: "我的最愛", favorite: true }, { name: "排行榜", path: "top" }, { name: "新歌推薦" }, { name: "最新專輯" }];
@@ -29,12 +30,16 @@ const SearchBar = () => {
     searchAlbum(token, keyword);
   };
 
+  const handleBackHome = () => {
+    navigate("/music-player");
+  };
+
   return (
     <div
       className={`h-full w-full bg-primary-200 py-8 px-10 z-20 absolute top-0 left-0 -translate-x-full transition-all duration-500 lg:relative lg:translate-x-0 lg:block lg:shadow-[5px_0px_10px_rgba(0,0,0,0.2)] ${enabled.search ? "translate-x-0" : ""}`}
     >
       {/* Logo */}
-      <h1 className="flex justify-center items-end">
+      <h1 className="flex justify-center items-end cursor-pointer" onClick={() => handleBackHome()}>
         <Icon icon="logo" className="w-6.5 h-6.5 block mr-1" alt="logo" />
         <p className="text-white text-2xl leading-5 font-agency">Immerse</p>
       </h1>

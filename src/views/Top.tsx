@@ -29,7 +29,7 @@ const Top = () => {
   }, [token, country, handleGetData]);
 
   return (
-    <div className="h-full w-4/5 mx-auto py-10">
+    <div className="min-h-full w-6/7 mx-auto py-10 lg:w-4/5">
       <AuthGroup title="排行榜" subTitle="Leaderboard" icon="menu-leader-board" />
       <Musiclist list={list} />
     </div>
