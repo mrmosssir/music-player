@@ -108,7 +108,7 @@ const TransportControl = (props: TransportControlProps) => {
 
           {/* 下方進度條區域 */}
           <div className="flex-1 flex justify-center items-center gap-x-8 mt-2">
-            <span className="text-xs text-white/50 w-8">
+            <span className="text-xs text-white/50 w-10">
               {currentTrack.name ? `${timeData(currentTime).minute}:${timeData(currentTime).second}` : "--:--"}
             </span>
             <div className="relative flex-1 h-0.5 bg-white/50 rounded-full group">
@@ -132,7 +132,7 @@ const TransportControl = (props: TransportControlProps) => {
                 style={{ left: `${progress}%` }}
               />
             </div>
-            <span className="text-xs text-white/50 w-8">
+            <span className="text-xs text-white/50 w-10">
               {currentTrack.name ? `${timeData(duration).minute}:${timeData(duration).second}` : "--:--"}
             </span>
           </div>

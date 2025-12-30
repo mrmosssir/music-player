@@ -135,23 +135,27 @@ export const getFeaturedPlaylist = async (token: string, country: string): Promi
 };
 
 export const getTopPlaylistId = async (token: string, country: string): Promise<string> => {
-  const url = `${import.meta.env.VITE_API_BASE_URL}/browse/categories/toplists/playlists`;
+  // 技巧：直接搜尋 "Filtr Global" 或 "Filtr Hits"
+  // 這樣可以找到 Filtr 品牌維護的熱門歌單
+  const query = "Billboard Hot 100";
+  const url = `${import.meta.env.VITE_API_BASE_URL}/search?q=${encodeURIComponent(query)}&type=playlist&limit=10`;
 
   const config = {
     method: "GET",
-    url: `${url}?${new URLSearchParams({ country: country || "TW", limit: "20" }).toString()}`,
+    url,
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/x-www-form-urlencoded",
     },
   };
 
-  try {
-    const { data } = await axiosRequest(config);
-    return data.playlists.items.filter((item: SpotifyPlaylist) => item.name.indexOf("50") >= 0)[3].id || "";
-  } catch {
-    return "";
-  }
+  const { data } = await axiosRequest(config);
+
+  // 雖然搜尋結果通常很準，但為了保險，我們可以過濾一下
+  // 確保擁有者名稱包含 'Filtr' (大小寫不拘)
+  const playlist = data.playlists.items.filter((item: SpotifyPlaylist) => !!item && item.owner.display_name?.toLowerCase().includes("billboard"));
+
+  return playlist.length ? playlist[0].id : "";
 };
 
 export const getTopPlaylist = async (token: string, id: string): Promise<MusicItem[]> => {
@@ -176,6 +180,7 @@ export const getTopPlaylist = async (token: string, id: string): Promise<MusicIt
         image: album.images[0]?.url,
         artist: album.artists[0]?.name,
         type: "track",
+        url: album.external_urls.spotify,
       };
     });
   } catch {
