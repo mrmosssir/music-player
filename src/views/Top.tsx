@@ -16,7 +16,7 @@ const Top = () => {
   const handleGetData = useCallback(async (): Promise<void> => {
     if (!token) return;
 
-    const id = await getTopPlaylistId(token, country);
+    const id = await getTopPlaylistId(token);
     if (!id) return;
 
     const top = await getTopPlaylist(token, id);
