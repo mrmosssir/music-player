@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { type RootState } from "@/store";
@@ -14,25 +14,45 @@ const SearchBar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const badge: string[] = ["放鬆", "搖滾", "R&B", "Hip-Hop", "測試"];
   const menu = [{ name: "我的最愛", favorite: true }, { name: "排行榜", path: "top" }, { name: "新歌推薦" }, { name: "最新專輯" }];
 
   const token = useSelector((state: RootState) => state.auth.token);
   const enabled = useSelector((state: RootState) => state.common.enabled);
 
+  const [recent, setRecent] = useState<string[]>([]);
+
   const handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key !== "Enter") return;
-    handleSearch();
+    handleSearch(event.currentTarget.value);
   };
 
-  const handleSearch = () => {
-    if (!token || !keyword) return;
-    searchAlbum(token, keyword);
+  const handleSearch = (str: string) => {
+    if (!token || !str) return;
+    searchAlbum(token, str);
+    const updatedRecent = [str, ...recent.filter((item) => item !== str)].slice(0, 8);
+    setRecent(updatedRecent);
+    localStorage.setItem("recent", JSON.stringify(updatedRecent));
   };
 
   const handleBackHome = () => {
     navigate("/music-player");
   };
+
+  const handleGetRecent = () => {
+    const storedRecent = localStorage.getItem("recent");
+    if (storedRecent) {
+      setRecent(JSON.parse(storedRecent));
+    }
+  };
+
+  const handleClickRecentBadge = async (item: string) => {
+    setKeyword(item);
+    handleSearch(item);
+  };
+
+  useEffect(() => {
+    handleGetRecent();
+  }, []);
 
   return (
     <div
@@ -58,24 +78,32 @@ const SearchBar = () => {
             onChange={(e) => setKeyword(e.target.value)}
             onKeyUp={handleKeyUp}
           />
-          <button onClick={handleSearch} className="cursor-pointer">
+          <button onClick={() => handleSearch(keyword)} className="cursor-pointer">
             <Icon icon="search" alt="搜尋" className="w-3" />
           </button>
         </div>
       </div>
 
-      <p className="text-white font-bold mb-2 mt-5">最近搜尋</p>
-
       {/* 搜尋紀錄 */}
-      <div className="flex flex-wrap">
-        {badge.map((item) => {
-          return (
-            <span className="text-sm bg-primary-300 rounded-full py-1 px-4 text-white mr-2 mt-2" key={item}>
-              {item}
-            </span>
-          );
-        })}
-      </div>
+      {!!recent.length && (
+        <>
+          <p className="text-white font-bold mb-2 mt-5">最近搜尋</p>
+
+          <div className="flex flex-wrap">
+            {recent.map((item) => {
+              return (
+                <button
+                  className="text-sm bg-primary-300 rounded-full py-1 px-4 text-white mr-2 mt-2 cursor-pointer"
+                  key={item}
+                  onClick={() => handleClickRecentBadge(item)}
+                >
+                  {item}
+                </button>
+              );
+            })}
+          </div>
+        </>
+      )}
 
       {/* 選單 */}
       <ul className="mt-6">
