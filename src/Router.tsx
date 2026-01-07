@@ -2,7 +2,6 @@ import { Routes, Route } from "react-router-dom";
 import { lazy } from "react";
 
 const Main = lazy(() => import("@/views/Main.tsx"));
-const Top = lazy(() => import("@/views/Top.tsx"));
 const List = lazy(() => import("@/views/List.tsx"));
 
 const Router = () => {

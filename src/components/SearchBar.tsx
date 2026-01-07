@@ -109,9 +109,9 @@ const SearchBar = () => {
       className={`min-h-full w-full bg-primary-200 py-8 px-10 z-20 absolute top-0 left-0 -translate-x-full transition-all duration-500 lg:relative lg:translate-x-0 lg:block lg:shadow-[5px_0px_10px_rgba(0,0,0,0.2)] ${enabled.search ? "translate-x-0" : ""}`}
     >
       {/* Logo */}
-      <h1 className="flex justify-center items-end cursor-pointer" onClick={() => handleBackHome()}>
-        <Icon icon="logo" className="w-6.5 h-6.5 block mr-1" alt="logo" />
-        <p className="text-white text-2xl leading-5 font-agency">Immerse</p>
+      <h1 className="flex justify-center items-end gap-x-3 cursor-pointer" onClick={() => handleBackHome()}>
+        <Icon icon="logo" className="w-7 h-7 block" alt="logo" />
+        <p className="text-white text-2xl leading-5 font-agency mb-0.5">SuMi Music</p>
       </h1>
 
       {/* 搜尋框 */}
@@ -156,7 +156,7 @@ const SearchBar = () => {
       )}
 
       {/* 選單 */}
-      <div className="grid grid-cols-2 gap-3 mt-6">
+      <div className="grid grid-cols-2 gap-4 mt-6">
         {categories.map((item, index) => {
           return (
             <Link

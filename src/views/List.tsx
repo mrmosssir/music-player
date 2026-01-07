@@ -31,6 +31,7 @@ const List = () => {
   };
 
   useEffect(() => {
+    if (!token || !keyword) return;
     handleSearch();
   }, [token, country, keyword]);
 
@@ -40,7 +41,7 @@ const List = () => {
 
   return (
     <div className="min-h-full w-6/7 mx-auto py-10 lg:w-4/5">
-      <AuthGroup title={keyword} subTitle="Leaderboard" icon="menu-leader-board" />
+      <AuthGroup title={keyword} icon="menu-leader-board" />
       <Musiclist list={list} />
     </div>
   );

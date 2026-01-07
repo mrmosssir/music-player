@@ -15,7 +15,7 @@ const Musiclist = (props: MusiclistProps) => {
     <ul className="my-8">
       {props.list.map((item: MusicItem, index: number) => {
         return (
-          <li key={index} className="w-4/5 flex items-center mx-auto my-4 gap-8">
+          <li key={index} className="w-4/5 flex items-center my-4 gap-8">
             <span className="w-[10%] text-4xl text-white font-bold">{index + 1}</span>
             <div className="relative w-20 h-20 group">
               <img width="80" height="80" src={item.image} alt={item.name} />

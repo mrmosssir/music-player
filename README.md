@@ -1,4 +1,4 @@
-# 🎵 Immerse - Music Player
+# 🎵 SuMi Music
 
 一個整合 Spotify API 並支援本地音樂播放的現代化音樂播放器應用程式，使用 React、TypeScript、Redux 與 Vite 構建。
 
