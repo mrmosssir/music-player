@@ -17,9 +17,9 @@ export type MusicItem = {
 };
 
 export type MusicTrack = {
+  id: string;
   name: string;
   duration: number;
-  id: string;
   artist: string;
   image: string;
   url: string;
@@ -30,6 +30,13 @@ export type UserPlaylistItem = {
   image: string;
   name: string;
   total: number;
+};
+
+export type Category = {
+  id: string;
+  name: string;
+  image: string;
+  href: string;
 };
 
 type SpotifyArtist = {
@@ -63,6 +70,13 @@ type SpotifyTrack = {
 
 type SpotifyPlaylistTrackItem = {
   track: SpotifyTrack;
+};
+
+type SpotifyCategory = {
+  id: string;
+  name: string;
+  icons: Image[];
+  href: string;
 };
 
 const getImage = (images: Image[]) => {
@@ -188,6 +202,37 @@ export const getTopPlaylist = async (token: string, id: string): Promise<MusicIt
   }
 };
 
+export const searchPlaylist = async (token: string, keyword: string, country: string): Promise<MusicItem[]> => {
+  const url = `${import.meta.env.VITE_API_BASE_URL}/search`;
+
+  const config = {
+    method: "GET",
+    url: `${url}?${new URLSearchParams({ q: keyword, type: "playlist", limit: "8", market: country || "TW" }).toString()}`,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  };
+
+  try {
+    const { data } = await axiosRequest(config);
+    return data.playlists.items
+      .filter((item: SpotifyPlaylist | null) => !!item)
+      .map((item: SpotifyPlaylist) => {
+        return {
+          id: item.id,
+          name: item.name,
+          artist: item.owner.display_name,
+          image: getImage(item.images),
+          type: "playlist",
+          url: item.external_urls.spotify,
+        };
+      });
+  } catch {
+    return [];
+  }
+};
+
 export const getUserPlaylist = async (token: string, userId: string): Promise<UserPlaylistItem[]> => {
   const url = `${import.meta.env.VITE_API_BASE_URL}/users/${userId}/playlists`;
 
@@ -213,7 +258,7 @@ export const getUserPlaylist = async (token: string, userId: string): Promise<Us
   }
 };
 
-export const getPlaylistTracks = async (token: string, id: string): Promise<MusicTrack[]> => {
+export const getPlaylistTracks = async (token: string, id: string): Promise<MusicItem[]> => {
   const url = `${import.meta.env.VITE_API_BASE_URL}/playlists/${id}`;
 
   const config = {
@@ -228,11 +273,12 @@ export const getPlaylistTracks = async (token: string, id: string): Promise<Musi
   try {
     const { data } = await axiosRequest(config);
     return data.tracks.items.map((item: SpotifyPlaylistTrackItem) => ({
-      name: item.track.name,
-      duration: item.track.duration_ms,
       id: item.track.id,
+      name: item.track.name,
       artist: item.track.artists[0].name,
-      image: item.track.album.images[0].url,
+      image: getImage(item.track.album.images),
+      type: "album",
+      url: item.track.album.external_urls.spotify,
     }));
   } catch {
     return [];
@@ -263,5 +309,32 @@ export const getTrackInfo = async (token: string, id: string): Promise<MusicTrac
     };
   } catch {
     return {} as MusicTrack;
+  }
+};
+
+export const getCategories = async (token: string, country: string): Promise<Category[]> => {
+  console.log(token, "token");
+  const locale = country || "zh_TW";
+  const url = `${import.meta.env.VITE_API_BASE_URL}/browse/categories?locale=${locale}&limit=20`;
+
+  const config = {
+    method: "GET",
+    url,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  };
+
+  try {
+    const { data } = await axiosRequest(config);
+    return data.categories.items.map((item: SpotifyCategory) => ({
+      id: item.id,
+      name: item.name,
+      image: getImage(item.icons),
+      href: item.href,
+    })) as Category[];
+  } catch {
+    return [] as Category[];
   }
 };

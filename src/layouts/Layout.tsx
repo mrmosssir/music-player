@@ -59,7 +59,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="h-screen w-full grid grid-cols-1 grid-rows-1 lg:grid-cols-[360px_1fr] lg:grid-rows-[1fr_96px]">
       {/* 左側搜尋欄 */}
-      <aside>
+      <aside className="h-[calc(100dvh - 96px)] overflow-y-auto">
         <SearchBar />
       </aside>
 

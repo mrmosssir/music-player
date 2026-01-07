@@ -5,7 +5,7 @@ export const useRoute = () => {
 
   const handeGetQuery = (key: string) => {
     const searchParams = new URLSearchParams(location.search);
-    return searchParams.get(key);
+    return searchParams.get(key) || "";
   };
 
   return {
